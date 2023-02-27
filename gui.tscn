@@ -58,9 +58,9 @@ columns = 2
 margin_top = 6.0
 margin_right = 129.0
 margin_bottom = 20.0
-text = "* First Ip: "
+text = "First Src Ip: "
 
-[node name="FirstIp" type="LineEdit" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+[node name="FirstSrcIp" type="LineEdit" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
 margin_left = 133.0
 margin_right = 263.0
 margin_bottom = 26.0
@@ -76,9 +76,9 @@ caret_blink_speed = 0.5
 margin_top = 42.0
 margin_right = 129.0
 margin_bottom = 56.0
-text = "* Last Ip: "
+text = "Last Src Ip: "
 
-[node name="LastIp" type="LineEdit" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+[node name="LastSrcIp" type="LineEdit" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
 margin_left = 133.0
 margin_top = 36.0
 margin_right = 263.0
@@ -95,9 +95,9 @@ caret_blink_speed = 0.5
 margin_top = 78.0
 margin_right = 129.0
 margin_bottom = 92.0
-text = "Destination Ip"
+text = "First Dst  Ip: "
 
-[node name="DstIp" type="LineEdit" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+[node name="FirstDstIp" type="LineEdit" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
 margin_left = 133.0
 margin_top = 72.0
 margin_right = 263.0
@@ -114,9 +114,9 @@ caret_blink_speed = 0.5
 margin_top = 114.0
 margin_right = 129.0
 margin_bottom = 128.0
-text = "Destination Mask: "
+text = "Last Dst Ip: "
 
-[node name="Mask" type="LineEdit" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+[node name="LastDstIp" type="LineEdit" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
 margin_left = 133.0
 margin_top = 108.0
 margin_right = 263.0
@@ -142,6 +142,7 @@ margin_right = 263.0
 margin_bottom = 164.0
 rect_min_size = Vector2( 130, 0 )
 hint_tooltip = "Put the filtered protocol here"
+disabled = true
 text = "tcp"
 items = [ "ahp", null, false, 0, null, "eigrp", null, false, 1, null, "esp", null, false, 2, null, "gre", null, false, 3, null, "icmp", null, false, 4, null, "ip", null, false, 5, null, "ospf", null, false, 6, null, "tcp", null, false, 7, null, "udp", null, false, 8, null ]
 selected = 7
@@ -158,9 +159,9 @@ margin_top = 174.0
 margin_right = 263.0
 margin_bottom = 198.0
 hint_tooltip = "Put the extended ACL number here"
-min_value = 100.0
+min_value = 1.0
 max_value = 199.0
-value = 100.0
+value = 1.0
 
 [node name="Label7" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
 margin_top = 214.0
@@ -176,6 +177,7 @@ margin_bottom = 234.0
 rect_min_size = Vector2( 130, 0 )
 hint_tooltip = "Put the source details here"
 max_length = 15
+editable = false
 clear_button_enabled = true
 placeholder_text = "eq 443"
 caret_blink = true
@@ -195,6 +197,7 @@ margin_bottom = 270.0
 rect_min_size = Vector2( 130, 0 )
 hint_tooltip = "Put the destination details here"
 max_length = 15
+editable = false
 clear_button_enabled = true
 placeholder_text = "eq 443"
 caret_blink = true
@@ -226,7 +229,7 @@ modulate = Color( 0.745098, 0.501961, 0.988235, 0.784314 )
 position = Vector2( 135, 450 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 5 )
-frame = 1
+frame = 2
 speed_scale = 0.4
 playing = true
 
@@ -237,7 +240,7 @@ margin_bottom = 586.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer2"]
+[node name="TitleLabel" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer2"]
 margin_right = 732.0
 margin_bottom = 14.0
 text = "Generated ACLs"
@@ -260,24 +263,28 @@ margin_top = 546.0
 margin_right = 732.0
 margin_bottom = 586.0
 custom_constants/separation = 30
-alignment = 1
+
+[node name="SortCheckBox" type="CheckButton" parent="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+margin_right = 185.0
+margin_bottom = 40.0
+text = "Sort by src mask"
 
 [node name="CheckButton" type="CheckButton" parent="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_left = 228.0
-margin_right = 359.0
+margin_left = 215.0
+margin_right = 346.0
 margin_bottom = 40.0
 pressed = true
 text = "Editable"
 
 [node name="Button" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_left = 389.0
-margin_right = 430.0
+margin_left = 376.0
+margin_right = 417.0
 margin_bottom = 40.0
 text = "Save"
 
 [node name="Button2" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_left = 460.0
-margin_right = 503.0
+margin_left = 447.0
+margin_right = 490.0
 margin_bottom = 40.0
 text = "Copy"
 
@@ -300,7 +307,9 @@ popup_exclusive = true
 window_title = "Success !"
 dialog_autowrap = true
 
+[connection signal="value_changed" from="PanelContainer/HBoxContainer/VBoxContainer/GridContainer/AclNumber" to="." method="_on_AclNumber_value_changed"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/Button" to="." method="_generated_acls_button"]
+[connection signal="toggled" from="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer/SortCheckBox" to="." method="_on_sort_by_mask_toggled"]
 [connection signal="toggled" from="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer/CheckButton" to="." method="_on_edit_checkbox"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Button" to="." method="_on_save_button"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Button2" to="." method="_on_copy_button"]
