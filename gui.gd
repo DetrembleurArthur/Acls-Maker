@@ -13,12 +13,18 @@ onready var file_dialog := $PanelContainer/SaveFileDialog
 onready var popup := $PanelContainer/ConfirmationDialog
 onready var acl_type_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/AclType
 onready var sort_by_mask_widget := $PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer/SortCheckBox
-onready var title_widget := $PanelContainer/HBoxContainer/VBoxContainer2/TitleLabel
+onready var title_widget := $PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TitleLabel
+onready var acl_size := $PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/AclsSize
+onready var src_hosts_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/SrcHosts
+onready var dst_hosts_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/DstHosts
+onready var oob_widget := $PanelContainer/HBoxContainer/VBoxContainer/OobCheckButton
 var current_acls
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_on_AclNumber_value_changed(acl_number_widget.value)
+	update_src_hosts_number()
+	update_dst_hosts_number()
 
 func get_value(var ip : String):
 	var value = 0
@@ -28,6 +34,47 @@ func get_value(var ip : String):
 		value += s.to_int() << (32 - 8 * ( i + 1 ))
 		i += 1
 	return value
+
+func update_src_hosts_number(var _a : String=""):
+	var first_src_ip = first_src_ip_widget.text
+	var last_src_ip = last_src_ip_widget.text
+	if first_src_ip.count(".") == 3 and last_src_ip.count(".") == 3:
+		var first_src_ip_value = get_value(first_src_ip)
+		var last_src_ip_value = get_value(last_src_ip)
+		src_hosts_widget.text = "%d" % (last_src_ip_value - first_src_ip_value + 1)
+
+func update_dst_hosts_number(var _a : String=""):
+	var first_dst_ip = first_dest_ip_widget.text
+	var last_dst_ip = last_dest_ip_widget.text
+	if first_dst_ip.count(".") == 3 and last_dst_ip.count(".") == 3:
+		var first_dst_ip_value = get_value(first_dst_ip)
+		var last_dst_ip_value = get_value(last_dst_ip)
+		dst_hosts_widget.text = "%d" % (last_dst_ip_value - first_dst_ip_value + 1)
+
+
+func compute_acls_with_deny(var first_src : int, var last_src : int, var first_dst : int, var last_dst : int):
+	var src_hosts = last_src - first_src + 1
+	var src_exponent = int(log(src_hosts) / log(2))
+	var src_biggest_block = int(pow(2, src_exponent)) - 1
+	var src_mask = ~src_biggest_block
+	var src_lower_value = first_src & src_mask if first_src != 0 else 0
+	
+	var dst_hosts = last_dst - first_dst + 1
+	var dst_exponent = int(log(dst_hosts) / log(2))
+	var dst_biggest_block = int(pow(2, dst_exponent)) - 1
+	var dst_mask = ~dst_biggest_block
+	var dst_lower_value = first_dst & dst_mask if first_dst != 0 else 0
+	# compute permit acls
+	var permit_ranges = compute_acls(src_lower_value, last_src, dst_lower_value, last_dst)
+	
+	var src_oob_hosts = first_src - src_lower_value
+	var src_upper_value = src_lower_value + src_oob_hosts if first_src != 0 else 0
+	
+	var dst_oob_hosts = first_dst - dst_lower_value
+	var dst_upper_value = dst_lower_value + dst_oob_hosts if first_dst != 0 else 0
+	# compute deny acls
+	var deny_ranges = compute_acls(src_lower_value, src_upper_value, dst_lower_value, dst_upper_value)
+	return deny_ranges + ["CHANGE"] + permit_ranges
 
 
 func to_str_ip(var address_value : int):
@@ -45,6 +92,12 @@ func ip_range(var first_value : int, var last_value : int):
 	var temp := 0
 	var counter := 0
 	var acls := []
+	if last_value == 0: return [{
+				"ip-value": current,
+				"mask-value": 0,
+				"ip-str": to_str_ip(current),
+				"mask-str": to_str_ip(0)
+	}]
 	while current <= last_value:
 		temp = current
 		counter = 0
@@ -100,6 +153,9 @@ func show_acls_lines(var merged_range : Array,
 					 var action : String):
 	var buffer := ""
 	for rng in merged_range:
+		if rng is String and rng == "CHANGE":
+			action = "permit" if action == "deny" else "deny"
+			continue
 		buffer += "access-list %d %s " % [number, action]
 		if number >= 100:
 			buffer += "%s " % protocol
@@ -123,6 +179,9 @@ func show_acls_lines(var merged_range : Array,
 	output_acls.text = buffer
 	
 
+
+
+
 func _generated_acls_button():
 	var first_src_ip = first_src_ip_widget.text
 	var last_src_ip = last_src_ip_widget.text
@@ -137,10 +196,14 @@ func _generated_acls_button():
 	var last_dst_ip_value = get_value(last_dst_ip)
 	var number = acl_number_widget.value
 	var action = acl_type_widget.text
-	current_acls = compute_acls(first_src_ip_value, last_src_ip_value, first_dst_ip_value, last_dst_ip_value)
+	if not oob_widget.pressed:
+		current_acls = compute_acls(first_src_ip_value, last_src_ip_value, first_dst_ip_value, last_dst_ip_value)
+	else:
+		current_acls = compute_acls_with_deny(first_src_ip_value, last_src_ip_value, first_dst_ip_value, last_dst_ip_value)
 	if sort_by_mask_widget.pressed:
 		current_acls.sort_custom(AclSorter, "sort")
 	show_acls_lines(current_acls, number, protocol, source_details, dest_details, action)
+	acl_size.text = "(%d)" % (current_acls.size() - int(oob_widget.pressed))
 
 
 
@@ -185,3 +248,8 @@ func _on_AclNumber_value_changed(value : int):
 	src_details_widget.editable = extended
 	dst_details_widget.editable = extended
 	title_widget.text = "Generated %s ACLs" % ("extended" if extended else "standart")
+
+
+func _on_OobCheckButton_toggled(button_pressed):
+	acl_type_widget.text = "permit" if not button_pressed else "deny"
+	acl_type_widget.disabled = button_pressed
