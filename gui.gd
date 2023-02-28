@@ -17,7 +17,7 @@ onready var title_widget := $PanelContainer/HBoxContainer/VBoxContainer2/HBoxCon
 onready var acl_size := $PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/AclsSize
 onready var src_hosts_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/SrcHosts
 onready var dst_hosts_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/DstHosts
-onready var oob_widget := $PanelContainer/HBoxContainer/VBoxContainer/OobCheckButton
+onready var gen_mode_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/GenModeOptionButton
 var current_acls
 
 # Called when the node enters the scene tree for the first time.
@@ -177,6 +177,7 @@ func show_acls_lines(var merged_range : Array,
 			buffer += "%s " % dst_details
 		buffer += "\n"
 	output_acls.text = buffer
+	merged_range.remove(merged_range.find('CHANGE'))
 	
 
 
@@ -196,14 +197,27 @@ func _generated_acls_button():
 	var last_dst_ip_value = get_value(last_dst_ip)
 	var number = acl_number_widget.value
 	var action = acl_type_widget.text
-	if not oob_widget.pressed:
-		current_acls = compute_acls(first_src_ip_value, last_src_ip_value, first_dst_ip_value, last_dst_ip_value)
-	else:
-		current_acls = compute_acls_with_deny(first_src_ip_value, last_src_ip_value, first_dst_ip_value, last_dst_ip_value)
+	var allow_oob = false
+	match gen_mode_widget.selected:
+		0:#permit
+			current_acls = compute_acls(first_src_ip_value, last_src_ip_value, first_dst_ip_value, last_dst_ip_value)
+		1:#oob
+			allow_oob = true
+			current_acls = compute_acls_with_deny(first_src_ip_value, last_src_ip_value, first_dst_ip_value, last_dst_ip_value)
+		2:#auto
+			var permit_only = compute_acls(first_src_ip_value, last_src_ip_value, first_dst_ip_value, last_dst_ip_value)
+			var oob = compute_acls_with_deny(first_src_ip_value, last_src_ip_value, first_dst_ip_value, last_dst_ip_value)
+			if oob.size() < permit_only.size():
+				allow_oob = true
+				current_acls = oob
+				action = 'deny'
+			else:
+				current_acls = permit_only
+				action = 'permit'
 	if sort_by_mask_widget.pressed:
 		current_acls.sort_custom(AclSorter, "sort")
 	show_acls_lines(current_acls, number, protocol, source_details, dest_details, action)
-	acl_size.text = "(%d)" % (current_acls.size() - int(oob_widget.pressed))
+	acl_size.text = "(%d)" % current_acls.size()
 
 
 
@@ -250,6 +264,26 @@ func _on_AclNumber_value_changed(value : int):
 	title_widget.text = "Generated %s ACLs" % ("extended" if extended else "standart")
 
 
-func _on_OobCheckButton_toggled(button_pressed):
-	acl_type_widget.text = "permit" if not button_pressed else "deny"
-	acl_type_widget.disabled = button_pressed
+
+func _on_GenModeOptionButton_item_selected(index):
+	acl_type_widget.text = "permit" if index == 0 else "deny"
+	acl_type_widget.disabled = index == 1
+
+onready var first_src_details := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer2/FirstSrcDetails
+onready var last_src_details := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer2/LastSrcDetails
+onready var first_dst_details := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer2/FirstDstDetails
+onready var last_dst_details := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer2/LastDstDetails
+onready var source_hosts := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer2/SrcHostCovered
+onready var destination_hosts := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer2/DstHostCovered
+
+func _on_TextEdit_cursor_changed():
+	var ln = output_acls.cursor_get_line()
+	if current_acls and current_acls.size() > ln:
+		var src = current_acls[ln]['src']
+		var dst = current_acls[ln]['dst']
+		first_src_details.text = src['ip-str']
+		last_src_details.text = to_str_ip(src['ip-value'] + src['mask-value'])
+		source_hosts.text = String(src['mask-value'] + 1) if src['ip-value'] != 0 else "all"
+		first_dst_details.text = dst['ip-str']
+		last_dst_details.text = to_str_ip(dst['ip-value'] + dst['mask-value'])
+		destination_hosts.text = String(dst['mask-value'] + 1) if dst['ip-value'] != 0 else "all"

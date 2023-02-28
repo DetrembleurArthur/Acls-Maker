@@ -1,31 +1,6 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://blob.png" type="Texture" id=1]
 [ext_resource path="res://gui.gd" type="Script" id=2]
-
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 1 )
-region = Rect2( 32, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 1 )
-region = Rect2( 0, 32, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 1 )
-region = Rect2( 32, 32, 32, 32 )
-
-[sub_resource type="SpriteFrames" id=5]
-animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-} ]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -40,17 +15,17 @@ anchor_bottom = 1.0
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 1017.0
-margin_bottom = 593.0
-custom_constants/separation = 15
+margin_bottom = 633.0
+custom_constants/separation = 30
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
-margin_right = 276.0
-margin_bottom = 586.0
+margin_right = 263.0
+margin_bottom = 626.0
 custom_constants/separation = 30
 
 [node name="GridContainer" type="GridContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
-margin_right = 276.0
-margin_bottom = 348.0
+margin_right = 263.0
+margin_bottom = 378.0
 custom_constants/vseparation = 10
 columns = 2
 
@@ -95,7 +70,7 @@ caret_blink_speed = 0.5
 margin_top = 72.0
 margin_right = 129.0
 margin_bottom = 86.0
-text = "Hosts: "
+text = "Src Hosts: "
 
 [node name="SrcHosts" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
 margin_left = 133.0
@@ -116,7 +91,7 @@ margin_top = 96.0
 margin_right = 263.0
 margin_bottom = 122.0
 rect_min_size = Vector2( 130, 0 )
-hint_tooltip = "Put the destination address here"
+hint_tooltip = "Put the first destination address here"
 max_length = 15
 clear_button_enabled = true
 placeholder_text = "10.10.10.0"
@@ -135,7 +110,7 @@ margin_top = 132.0
 margin_right = 263.0
 margin_bottom = 158.0
 rect_min_size = Vector2( 130, 0 )
-hint_tooltip = "Put the destination mask ip address here"
+hint_tooltip = "Put the last destination address here"
 max_length = 15
 clear_button_enabled = true
 placeholder_text = "0.0.0.255"
@@ -146,7 +121,7 @@ caret_blink_speed = 0.5
 margin_top = 168.0
 margin_right = 129.0
 margin_bottom = 182.0
-text = "Hosts: "
+text = "Dst Hosts: "
 
 [node name="DstHosts" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
 margin_left = 133.0
@@ -244,36 +219,128 @@ text = "permit"
 items = [ "permit", null, false, 0, null, "deny", null, false, 1, null ]
 selected = 0
 
-[node name="OobCheckButton" type="CheckButton" parent="PanelContainer/HBoxContainer/VBoxContainer"]
-margin_top = 378.0
-margin_right = 276.0
-margin_bottom = 418.0
-text = "Allow out of band optimisation"
+[node name="Label10" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+margin_top = 361.0
+margin_right = 129.0
+margin_bottom = 375.0
+text = "Generation mode: "
+
+[node name="GenModeOptionButton" type="OptionButton" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+margin_left = 133.0
+margin_top = 358.0
+margin_right = 263.0
+margin_bottom = 378.0
+text = "permit only"
+items = [ "permit only", null, false, 0, null, "allow out of band", null, false, 1, null, "auto", null, false, 2, null ]
+selected = 0
 
 [node name="Button" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer"]
-margin_top = 448.0
-margin_right = 276.0
-margin_bottom = 468.0
+margin_top = 408.0
+margin_right = 263.0
+margin_bottom = 428.0
 text = "Generate ACLs"
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="PanelContainer/HBoxContainer/VBoxContainer"]
-modulate = Color( 0.745098, 0.501961, 0.988235, 0.784314 )
-position = Vector2( 135, 520 )
-scale = Vector2( 2, 2 )
-frames = SubResource( 5 )
-frame = 1
-speed_scale = 0.4
-playing = true
+[node name="GridContainer2" type="GridContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+margin_top = 458.0
+margin_right = 263.0
+margin_bottom = 617.0
+custom_constants/vseparation = 15
+custom_constants/hseparation = 20
+columns = 2
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
+margin_right = 180.0
+margin_bottom = 14.0
+text = "First source ip: "
+
+[node name="FirstSrcDetails" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
+margin_left = 200.0
+margin_right = 261.0
+margin_bottom = 14.0
+text = "select acl"
+
+[node name="Label3" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
+margin_top = 29.0
+margin_right = 180.0
+margin_bottom = 43.0
+hint_tooltip = "Included in the range"
+mouse_filter = 1
+text = "Last source ip : "
+
+[node name="LastSrcDetails" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
+margin_left = 200.0
+margin_top = 29.0
+margin_right = 261.0
+margin_bottom = 43.0
+text = "select acl"
+
+[node name="Label4" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
+margin_top = 58.0
+margin_right = 180.0
+margin_bottom = 72.0
+hint_tooltip = "Included in the range"
+mouse_filter = 1
+text = "Source hosts covered : "
+
+[node name="SrcHostCovered" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
+margin_left = 200.0
+margin_top = 58.0
+margin_right = 261.0
+margin_bottom = 72.0
+text = "select acl"
+
+[node name="Label5" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
+margin_top = 87.0
+margin_right = 180.0
+margin_bottom = 101.0
+text = "First destination ip: "
+
+[node name="FirstDstDetails" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
+margin_left = 200.0
+margin_top = 87.0
+margin_right = 261.0
+margin_bottom = 101.0
+text = "select acl"
+
+[node name="Label7" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
+margin_top = 116.0
+margin_right = 180.0
+margin_bottom = 130.0
+hint_tooltip = "Included in the range"
+mouse_filter = 1
+text = "Last destination ip: "
+
+[node name="LastDstDetails" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
+margin_left = 200.0
+margin_top = 116.0
+margin_right = 261.0
+margin_bottom = 130.0
+text = "select acl"
+
+[node name="Label6" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
+margin_top = 145.0
+margin_right = 180.0
+margin_bottom = 159.0
+hint_tooltip = "Included in the range"
+mouse_filter = 1
+text = "Destination hosts covered : "
+
+[node name="DstHostCovered" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
+margin_left = 200.0
+margin_top = 145.0
+margin_right = 261.0
+margin_bottom = 159.0
+text = "select acl"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
-margin_left = 291.0
+margin_left = 293.0
 margin_right = 1010.0
-margin_bottom = 586.0
+margin_bottom = 626.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer2"]
-margin_right = 719.0
+margin_right = 717.0
 margin_bottom = 14.0
 custom_constants/separation = 20
 
@@ -289,8 +356,8 @@ margin_bottom = 14.0
 
 [node name="TextEdit" type="TextEdit" parent="PanelContainer/HBoxContainer/VBoxContainer2"]
 margin_top = 18.0
-margin_right = 719.0
-margin_bottom = 542.0
+margin_right = 717.0
+margin_bottom = 582.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 highlight_current_line = true
@@ -301,9 +368,9 @@ fold_gutter = true
 highlight_all_occurrences = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 546.0
-margin_right = 719.0
-margin_bottom = 586.0
+margin_top = 586.0
+margin_right = 717.0
+margin_bottom = 626.0
 custom_constants/separation = 30
 
 [node name="SortCheckBox" type="CheckButton" parent="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
@@ -354,8 +421,9 @@ dialog_autowrap = true
 [connection signal="text_changed" from="PanelContainer/HBoxContainer/VBoxContainer/GridContainer/FirstDstIp" to="." method="update_dst_hosts_number"]
 [connection signal="text_changed" from="PanelContainer/HBoxContainer/VBoxContainer/GridContainer/LastDstIp" to="." method="update_dst_hosts_number"]
 [connection signal="value_changed" from="PanelContainer/HBoxContainer/VBoxContainer/GridContainer/AclNumber" to="." method="_on_AclNumber_value_changed"]
-[connection signal="toggled" from="PanelContainer/HBoxContainer/VBoxContainer/OobCheckButton" to="." method="_on_OobCheckButton_toggled"]
+[connection signal="item_selected" from="PanelContainer/HBoxContainer/VBoxContainer/GridContainer/GenModeOptionButton" to="." method="_on_GenModeOptionButton_item_selected"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/Button" to="." method="_generated_acls_button"]
+[connection signal="cursor_changed" from="PanelContainer/HBoxContainer/VBoxContainer2/TextEdit" to="." method="_on_TextEdit_cursor_changed"]
 [connection signal="toggled" from="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer/SortCheckBox" to="." method="_on_sort_by_mask_toggled"]
 [connection signal="toggled" from="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer/CheckButton" to="." method="_on_edit_checkbox"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Button" to="." method="_on_save_button"]
