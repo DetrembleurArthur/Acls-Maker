@@ -277,10 +277,12 @@ onready var first_dst_details := $PanelContainer/HBoxContainer/VBoxContainer/Gri
 onready var last_dst_details := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer2/LastDstDetails
 onready var source_hosts := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer2/SrcHostCovered
 onready var destination_hosts := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer2/DstHostCovered
+onready var acl_selected := $PanelContainer/HBoxContainer/VBoxContainer/SelectedAcl
 
 func _on_TextEdit_cursor_changed():
 	var ln = output_acls.cursor_get_line()
 	if current_acls and current_acls.size() > ln:
+		acl_selected.text = output_acls.get_line(ln)
 		var src = current_acls[ln]['src']
 		var dst = current_acls[ln]['dst']
 		first_src_details.text = src['ip-str']

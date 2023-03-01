@@ -240,10 +240,16 @@ margin_right = 263.0
 margin_bottom = 428.0
 text = "Generate ACLs"
 
-[node name="GridContainer2" type="GridContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="SelectedAcl" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer"]
 margin_top = 458.0
 margin_right = 263.0
-margin_bottom = 617.0
+margin_bottom = 472.0
+text = "select acl"
+
+[node name="GridContainer2" type="GridContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+margin_top = 502.0
+margin_right = 263.0
+margin_bottom = 661.0
 custom_constants/vseparation = 15
 custom_constants/hseparation = 20
 columns = 2
