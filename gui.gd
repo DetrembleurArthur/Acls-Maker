@@ -66,6 +66,8 @@ func compute_acls_with_deny(var first_src : int, var last_src : int, var first_d
 	var dst_lower_value = first_dst & dst_mask if first_dst != 0 else 0
 	# compute permit acls
 	var permit_ranges = compute_acls(src_lower_value, last_src, dst_lower_value, last_dst)
+	if src_lower_value == first_src:
+		return ["CHANGE"] + permit_ranges
 	
 	var src_oob_hosts = first_src - src_lower_value
 	var src_upper_value = src_lower_value + src_oob_hosts if first_src != 0 else 0
