@@ -15,12 +15,12 @@ anchor_bottom = 1.0
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 1017.0
-margin_bottom = 633.0
+margin_bottom = 697.0
 custom_constants/separation = 30
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
 margin_right = 263.0
-margin_bottom = 626.0
+margin_bottom = 690.0
 custom_constants/separation = 30
 
 [node name="GridContainer" type="GridContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
@@ -249,93 +249,93 @@ custom_constants/hseparation = 20
 columns = 2
 
 [node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
-margin_right = 180.0
+margin_right = 128.0
 margin_bottom = 14.0
-text = "First source ip: "
+text = "First src ip: "
 
 [node name="FirstSrcDetails" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
-margin_left = 200.0
-margin_right = 261.0
+margin_left = 148.0
+margin_right = 209.0
 margin_bottom = 14.0
 text = "select acl"
 
 [node name="Label3" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
 margin_top = 29.0
-margin_right = 180.0
+margin_right = 128.0
 margin_bottom = 43.0
 hint_tooltip = "Included in the range"
 mouse_filter = 1
-text = "Last source ip : "
+text = "Last src ip : "
 
 [node name="LastSrcDetails" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
-margin_left = 200.0
+margin_left = 148.0
 margin_top = 29.0
-margin_right = 261.0
+margin_right = 209.0
 margin_bottom = 43.0
 text = "select acl"
 
 [node name="Label4" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
 margin_top = 58.0
-margin_right = 180.0
+margin_right = 128.0
 margin_bottom = 72.0
 hint_tooltip = "Included in the range"
 mouse_filter = 1
-text = "Source hosts covered : "
+text = "Src hosts covered : "
 
 [node name="SrcHostCovered" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
-margin_left = 200.0
+margin_left = 148.0
 margin_top = 58.0
-margin_right = 261.0
+margin_right = 209.0
 margin_bottom = 72.0
 text = "select acl"
 
 [node name="Label5" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
 margin_top = 87.0
-margin_right = 180.0
+margin_right = 128.0
 margin_bottom = 101.0
-text = "First destination ip: "
+text = "First dst ip: "
 
 [node name="FirstDstDetails" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
-margin_left = 200.0
+margin_left = 148.0
 margin_top = 87.0
-margin_right = 261.0
+margin_right = 209.0
 margin_bottom = 101.0
 text = "select acl"
 
 [node name="Label7" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
 margin_top = 116.0
-margin_right = 180.0
+margin_right = 128.0
 margin_bottom = 130.0
 hint_tooltip = "Included in the range"
 mouse_filter = 1
-text = "Last destination ip: "
+text = "Last dst ip: "
 
 [node name="LastDstDetails" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
-margin_left = 200.0
+margin_left = 148.0
 margin_top = 116.0
-margin_right = 261.0
+margin_right = 209.0
 margin_bottom = 130.0
 text = "select acl"
 
 [node name="Label6" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
 margin_top = 145.0
-margin_right = 180.0
+margin_right = 128.0
 margin_bottom = 159.0
 hint_tooltip = "Included in the range"
 mouse_filter = 1
-text = "Destination hosts covered : "
+text = "Dst hosts covered : "
 
 [node name="DstHostCovered" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/GridContainer2"]
-margin_left = 200.0
+margin_left = 148.0
 margin_top = 145.0
-margin_right = 261.0
+margin_right = 209.0
 margin_bottom = 159.0
 text = "select acl"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
 margin_left = 293.0
 margin_right = 1010.0
-margin_bottom = 626.0
+margin_bottom = 690.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -357,7 +357,7 @@ margin_bottom = 14.0
 [node name="TextEdit" type="TextEdit" parent="PanelContainer/HBoxContainer/VBoxContainer2"]
 margin_top = 18.0
 margin_right = 717.0
-margin_bottom = 582.0
+margin_bottom = 646.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 highlight_current_line = true
@@ -368,9 +368,9 @@ fold_gutter = true
 highlight_all_occurrences = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 586.0
+margin_top = 650.0
 margin_right = 717.0
-margin_bottom = 626.0
+margin_bottom = 690.0
 custom_constants/separation = 30
 
 [node name="SortCheckBox" type="CheckButton" parent="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
