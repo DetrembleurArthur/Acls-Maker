@@ -69,10 +69,10 @@ func compute_acls_with_deny(var first_src : int, var last_src : int, var first_d
 	if src_lower_value == first_src:
 		return ["CHANGE"] + permit_ranges
 	
-	var src_oob_hosts = first_src - src_lower_value
+	var src_oob_hosts = first_src - src_lower_value -1
 	var src_upper_value = src_lower_value + src_oob_hosts if first_src != 0 else 0
 	
-	var dst_oob_hosts = first_dst - dst_lower_value
+	var dst_oob_hosts = first_dst - dst_lower_value -1
 	var dst_upper_value = dst_lower_value + dst_oob_hosts if first_dst != 0 else 0
 	# compute deny acls
 	var deny_ranges = compute_acls(src_lower_value, src_upper_value, dst_lower_value, dst_upper_value)
@@ -144,7 +144,6 @@ func compute_acls(var first_src : int, var last_src : int, var first_dst : int, 
 
 class AclSorter:
 	static func sort(a, b):
-		print(b["src"]["mask-value"] , " ", a["src"]["mask-value"])
 		return b["src"]["mask-value"] < a["src"]["mask-value"]
 
 func show_acls_lines(var merged_range : Array,
