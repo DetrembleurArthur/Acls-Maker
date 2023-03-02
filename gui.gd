@@ -1,25 +1,24 @@
 extends Control
 
-onready var first_src_ip_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/FirstSrcIp
-onready var last_src_ip_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/LastSrcIp
-onready var first_dest_ip_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/FirstDstIp
-onready var last_dest_ip_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/LastDstIp
-onready var protocol_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/Protocol
-onready var acl_number_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/AclNumber
-onready var src_details_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/SrcDetails
-onready var dst_details_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/DstDetails
+onready var first_src_ip_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/FirstSrcIp
+onready var last_src_ip_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/LastSrcIp
+onready var first_dest_ip_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/FirstDstIp
+onready var last_dest_ip_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/LastDstIp
+onready var protocol_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/Protocol
+onready var acl_number_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/AclNumber
+onready var src_details_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/SrcDetails
+onready var dst_details_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/DstDetails
 onready var output_acls := $PanelContainer/HBoxContainer/VBoxContainer2/TextEdit
 onready var file_dialog := $PanelContainer/SaveFileDialog
 onready var popup := $PanelContainer/ConfirmationDialog
-onready var acl_type_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/AclType
-onready var sort_by_mask_widget := $PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer/SortCheckBox
+onready var acl_type_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/AclType
+onready var sort_by_mask_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/SortCheckBox
 onready var title_widget := $PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TitleLabel
 onready var acl_size := $PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/AclsSize
-onready var src_hosts_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/SrcHosts
-onready var dst_hosts_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/DstHosts
-onready var gen_mode_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/GenModeOptionButton
+onready var src_hosts_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/SrcHosts
+onready var dst_hosts_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/DstHosts
+onready var gen_mode_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/GenModeOptionButton
 var current_acls : Array
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_on_AclNumber_value_changed(acl_number_widget.value)
@@ -72,10 +71,8 @@ func compute_acls_with_deny(var first_src : int, var last_src : int, var first_d
 	var src_oob_hosts = first_src - src_lower_value -1
 	var src_upper_value = src_lower_value + src_oob_hosts if first_src != 0 else 0
 	
-	var dst_oob_hosts = first_dst - dst_lower_value -1
-	var dst_upper_value = dst_lower_value + dst_oob_hosts if first_dst != 0 else 0
 	# compute deny acls
-	var deny_ranges = compute_acls(src_lower_value, src_upper_value, dst_lower_value, dst_upper_value, "deny")
+	var deny_ranges = compute_acls(src_lower_value, src_upper_value, dst_lower_value, last_dst, "deny")
 	return deny_ranges + permit_ranges
 
 
@@ -187,14 +184,10 @@ func _generated_acls_button():
 	var last_src_ip = last_src_ip_widget.text
 	var first_dst_ip = first_dest_ip_widget.text
 	var last_dst_ip = last_dest_ip_widget.text
-	var source_details = src_details_widget.text
-	var dest_details = dst_details_widget.text
-	var protocol = protocol_widget.text
 	var first_src_ip_value = get_value(first_src_ip)
 	var last_src_ip_value = get_value(last_src_ip)
 	var first_dst_ip_value = get_value(first_dst_ip)
 	var last_dst_ip_value = get_value(last_dst_ip)
-	var number = acl_number_widget.value
 	var action = acl_type_widget.text
 	match gen_mode_widget.selected:
 		0:#permit
@@ -271,13 +264,13 @@ func _on_GenModeOptionButton_item_selected(index):
 	acl_type_widget.text = "permit" if index == 0 else "deny"
 	acl_type_widget.disabled = index == 1
 
-onready var first_src_details := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer2/FirstSrcDetails
-onready var last_src_details := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer2/LastSrcDetails
-onready var first_dst_details := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer2/FirstDstDetails
-onready var last_dst_details := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer2/LastDstDetails
-onready var source_hosts := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer2/SrcHostCovered
-onready var destination_hosts := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer2/DstHostCovered
-onready var acl_selected := $PanelContainer/HBoxContainer/VBoxContainer/SelectedAcl
+onready var first_src_details := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/FirstSrcDetails
+onready var last_src_details := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/LastSrcDetails
+onready var first_dst_details := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/FirstDstDetails
+onready var last_dst_details := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/LastDstDetails
+onready var source_hosts := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/SrcHostCovered
+onready var destination_hosts := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/DstHostCovered
+onready var acl_selected := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/SelectedAcl
 
 func _on_TextEdit_cursor_changed():
 	var ln = output_acls.cursor_get_line()
