@@ -18,7 +18,7 @@ onready var acl_size := $PanelContainer/HBoxContainer/VBoxContainer2/HBoxContain
 onready var src_hosts_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/SrcHosts
 onready var dst_hosts_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/DstHosts
 onready var gen_mode_widget := $PanelContainer/HBoxContainer/VBoxContainer/GridContainer/GenModeOptionButton
-var current_acls
+var current_acls : Array
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -65,9 +65,9 @@ func compute_acls_with_deny(var first_src : int, var last_src : int, var first_d
 	var dst_mask = ~dst_biggest_block
 	var dst_lower_value = first_dst & dst_mask if first_dst != 0 else 0
 	# compute permit acls
-	var permit_ranges = compute_acls(src_lower_value, last_src, dst_lower_value, last_dst)
+	var permit_ranges = compute_acls(src_lower_value, last_src, dst_lower_value, last_dst, "permit")
 	if src_lower_value == first_src:
-		return ["CHANGE"] + permit_ranges
+		return permit_ranges
 	
 	var src_oob_hosts = first_src - src_lower_value -1
 	var src_upper_value = src_lower_value + src_oob_hosts if first_src != 0 else 0
@@ -75,8 +75,8 @@ func compute_acls_with_deny(var first_src : int, var last_src : int, var first_d
 	var dst_oob_hosts = first_dst - dst_lower_value -1
 	var dst_upper_value = dst_lower_value + dst_oob_hosts if first_dst != 0 else 0
 	# compute deny acls
-	var deny_ranges = compute_acls(src_lower_value, src_upper_value, dst_lower_value, dst_upper_value)
-	return deny_ranges + ["CHANGE"] + permit_ranges
+	var deny_ranges = compute_acls(src_lower_value, src_upper_value, dst_lower_value, dst_upper_value, "deny")
+	return deny_ranges + permit_ranges
 
 
 func to_str_ip(var address_value : int):
@@ -109,9 +109,11 @@ func ip_range(var first_value : int, var last_value : int):
 				temp >>= 1
 			else:
 				temp = 0
+# warning-ignore:narrowing_conversion
 		temp = pow(2, counter) - 1
 		while current + temp > last_value:
 			counter -= 1
+# warning-ignore:narrowing_conversion
 			temp = pow(2, counter) - 1
 		acls.append(
 			{
@@ -124,22 +126,23 @@ func ip_range(var first_value : int, var last_value : int):
 		current += temp + 1
 	return acls
 
-func merge_ranges(var src_range : Array, var dst_range : Array):
+func merge_ranges(var src_range : Array, var dst_range : Array, var action : String):
 	var merged_ranges = []
 	for src in src_range:
 		for dst in dst_range:
 			merged_ranges.append(
 				{
+					"action": action,
 					"src": src,
 					"dst": dst
 				}
 			)
 	return merged_ranges
 
-func compute_acls(var first_src : int, var last_src : int, var first_dst : int, var last_dst : int):
+func compute_acls(var first_src : int, var last_src : int, var first_dst : int, var last_dst : int, var action : String):
 	var src_ranges = ip_range(first_src, last_src)
 	var dst_ranges = ip_range(first_dst, last_dst)
-	var merged_ranges = merge_ranges(src_ranges, dst_ranges)
+	var merged_ranges = merge_ranges(src_ranges, dst_ranges, action)
 	return merged_ranges
 
 class AclSorter:
@@ -150,14 +153,10 @@ func show_acls_lines(var merged_range : Array,
 					 var number : int,
 					 var protocol : String,
 					 var src_details : String,
-					 var dst_details : String,
-					 var action : String):
+					 var dst_details : String):
 	var buffer := ""
 	for rng in merged_range:
-		if rng is String and rng == "CHANGE":
-			action = "permit" if action == "deny" else "deny"
-			continue
-		buffer += "access-list %d %s " % [number, action]
+		buffer += "access-list %d %s " % [number, rng['action']]
 		if number >= 100:
 			buffer += "%s " % protocol
 		if rng["src"]["ip-value"] == 0:
@@ -178,7 +177,6 @@ func show_acls_lines(var merged_range : Array,
 			buffer += "%s " % dst_details
 		buffer += "\n"
 	output_acls.text = buffer
-	#merged_range.remove(merged_range.find('CHANGE'))
 	
 
 
@@ -198,27 +196,20 @@ func _generated_acls_button():
 	var last_dst_ip_value = get_value(last_dst_ip)
 	var number = acl_number_widget.value
 	var action = acl_type_widget.text
-	var allow_oob = false
 	match gen_mode_widget.selected:
 		0:#permit
-			current_acls = compute_acls(first_src_ip_value, last_src_ip_value, first_dst_ip_value, last_dst_ip_value)
+			current_acls = compute_acls(first_src_ip_value, last_src_ip_value, first_dst_ip_value, last_dst_ip_value, action)
 		1:#oob
-			allow_oob = true
 			current_acls = compute_acls_with_deny(first_src_ip_value, last_src_ip_value, first_dst_ip_value, last_dst_ip_value)
 		2:#auto
-			var permit_only = compute_acls(first_src_ip_value, last_src_ip_value, first_dst_ip_value, last_dst_ip_value)
+			var permit_only = compute_acls(first_src_ip_value, last_src_ip_value, first_dst_ip_value, last_dst_ip_value, "permit")
 			var oob = compute_acls_with_deny(first_src_ip_value, last_src_ip_value, first_dst_ip_value, last_dst_ip_value)
 			if oob.size() < permit_only.size():
-				allow_oob = true
 				current_acls = oob
-				action = 'deny'
 			else:
 				current_acls = permit_only
-				action = 'permit'
-	if sort_by_mask_widget.pressed:
-		current_acls.sort_custom(AclSorter, "sort")
-	show_acls_lines(current_acls, number, protocol, source_details, dest_details, action)
-	acl_size.text = "(%d)" % (current_acls.size()-1)
+	_on_sort_by_mask_toggled(sort_by_mask_widget.pressed)
+	acl_size.text = "(%d)" % current_acls.size()
 
 
 
@@ -237,6 +228,7 @@ func _on_copy_button():
 
 func _on_SaveFileDialog_file_selected(path):
 	var file := File.new()
+# warning-ignore:return_value_discarded
 	file.open(path, File.WRITE)
 	file.store_string(output_acls.text)
 	file.close()
@@ -246,24 +238,25 @@ func _on_SaveFileDialog_file_selected(path):
 	
 
 
+# warning-ignore:unused_argument
 func _on_sort_by_mask_toggled(button_pressed):
 	if current_acls:
-		var array : Array = current_acls
-		var i := array.find("CHANGE")
-		if i != -1:
-			array = array.slice(i+1, array.size()-1)
-			print(array)
-			array.sort_custom(AclSorter, "sort")
-			current_acls = current_acls.slice(0, i) + array
-		else:
-			current_acls.sort_custom(AclSorter, "sort")
 		var source_details = src_details_widget.text
 		var dest_details = dst_details_widget.text
 		var protocol = protocol_widget.text
 		var number = acl_number_widget.value
-		var action = acl_type_widget.text
-		show_acls_lines(current_acls, number, protocol, source_details, dest_details, action)
-
+		if button_pressed:
+			var deny_acls : Array = []
+			var permit_acls : Array = []
+			for acl in current_acls:
+				if acl['action'] == "permit":
+					permit_acls.append(acl)
+				else:
+					deny_acls.append(acl)
+			permit_acls.sort_custom(AclSorter, "sort")
+			show_acls_lines(deny_acls + permit_acls, number, protocol, source_details, dest_details)
+		else:
+			show_acls_lines(current_acls, number, protocol, source_details, dest_details)
 
 func _on_AclNumber_value_changed(value : int):
 	var extended := value >= 100
