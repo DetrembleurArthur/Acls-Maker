@@ -178,7 +178,7 @@ func show_acls_lines(var merged_range : Array,
 			buffer += "%s " % dst_details
 		buffer += "\n"
 	output_acls.text = buffer
-	merged_range.remove(merged_range.find('CHANGE'))
+	#merged_range.remove(merged_range.find('CHANGE'))
 	
 
 
@@ -218,7 +218,7 @@ func _generated_acls_button():
 	if sort_by_mask_widget.pressed:
 		current_acls.sort_custom(AclSorter, "sort")
 	show_acls_lines(current_acls, number, protocol, source_details, dest_details, action)
-	acl_size.text = "(%d)" % current_acls.size()
+	acl_size.text = "(%d)" % (current_acls.size()-1)
 
 
 
@@ -248,7 +248,15 @@ func _on_SaveFileDialog_file_selected(path):
 
 func _on_sort_by_mask_toggled(button_pressed):
 	if current_acls:
-		current_acls.sort_custom(AclSorter, "sort")
+		var array : Array = current_acls
+		var i := array.find("CHANGE")
+		if i != -1:
+			array = array.slice(i+1, array.size()-1)
+			print(array)
+			array.sort_custom(AclSorter, "sort")
+			current_acls = current_acls.slice(0, i) + array
+		else:
+			current_acls.sort_custom(AclSorter, "sort")
 		var source_details = src_details_widget.text
 		var dest_details = dst_details_widget.text
 		var protocol = protocol_widget.text
