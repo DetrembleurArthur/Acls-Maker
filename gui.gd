@@ -275,10 +275,10 @@ func _on_GenModeOptionButton_item_selected(index):
 
 func _on_TextEdit_cursor_changed():
 	var ln = output_acls.get_caret_line()
-	if current_acls and current_acls.size() > ln:
+	if sorted_acls and sorted_acls.size() > ln:
 		acl_selected.text = output_acls.get_line(ln)
-		var src = current_acls[ln]['src']
-		var dst = current_acls[ln]['dst']
+		var src = sorted_acls[ln]['src']
+		var dst = sorted_acls[ln]['dst']
 		first_src_details.text = src['ip-str']
 		last_src_details.text = to_str_ip(src['ip-value'] + src['mask-value'])
 		source_hosts.text = String.num_int64(src['mask-value'] + 1) if src['ip-value'] != 0 else "all"
@@ -340,3 +340,7 @@ func _on_fullscreen_button_pressed():
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+
+
+func _on_quit_button_pressed():
+	get_tree().quit()

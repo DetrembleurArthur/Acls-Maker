@@ -506,6 +506,10 @@ layout_mode = 2
 shortcut = SubResource("Shortcut_yncww")
 text = "Fulscreen"
 
+[node name="QuitButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
 [node name="Container" type="Container" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
@@ -530,4 +534,5 @@ dialog_autowrap = true
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Button" to="." method="_on_save_button"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Button2" to="." method="_on_copy_button"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/FullscreenButton" to="." method="_on_fullscreen_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="file_selected" from="PanelContainer/VBoxContainer/SaveFileDialog" to="." method="_on_SaveFileDialog_file_selected"]
