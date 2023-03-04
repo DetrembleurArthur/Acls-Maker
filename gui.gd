@@ -1,23 +1,23 @@
 extends Control
 
-@onready var first_src_ip_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/FirstSrcIp
-@onready var last_src_ip_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/LastSrcIp
-@onready var first_dest_ip_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/FirstDstIp
-@onready var last_dest_ip_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/LastDstIp
-@onready var protocol_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/Protocol
-@onready var acl_number_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/AclNumber
-@onready var src_details_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/SrcDetails
-@onready var dst_details_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/DstDetails
+@onready var first_src_ip_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer/FirstSrcIp
+@onready var last_src_ip_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer/LastSrcIp
+@onready var first_dest_ip_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer/FirstDstIp
+@onready var last_dest_ip_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer/LastDstIp
+@onready var protocol_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer/Protocol
+@onready var acl_number_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer/AclNumber
+@onready var src_details_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer/SrcDetails
+@onready var dst_details_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer/DstDetails
 @onready var output_acls := $PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/TextEdit
 @onready var file_dialog := $PanelContainer/VBoxContainer/SaveFileDialog
 @onready var popup := $PanelContainer/VBoxContainer/ConfirmationDialog
-@onready var acl_type_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/AclType
-@onready var sort_by_mask_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/SortCheckBox
+@onready var acl_type_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer/AclType
+@onready var sort_by_mask_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SortCheckBox
 @onready var title_widget := $PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TitleLabel
 @onready var acl_size := $PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/AclsSize
-@onready var src_hosts_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/SrcHosts
-@onready var dst_hosts_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/DstHosts
-@onready var gen_mode_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/GenModeOptionButton
+@onready var src_hosts_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer/SrcHosts
+@onready var dst_hosts_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer/DstHosts
+@onready var gen_mode_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer/GenModeOptionButton
 var current_acls : Array
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -265,13 +265,13 @@ func _on_GenModeOptionButton_item_selected(index):
 	acl_type_widget.text = "permit" if index == 0 else "deny"
 	acl_type_widget.disabled = index == 1
 
-@onready var first_src_details := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/FirstSrcDetails
-@onready var last_src_details := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/LastSrcDetails
-@onready var first_dst_details := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/FirstDstDetails
-@onready var last_dst_details := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/LastDstDetails
-@onready var source_hosts := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/SrcHostCovered
-@onready var destination_hosts := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/DstHostCovered
-@onready var acl_selected := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/SelectedAcl
+@onready var first_src_details := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer2/FirstSrcDetails
+@onready var last_src_details := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer2/LastSrcDetails
+@onready var first_dst_details := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer2/FirstDstDetails
+@onready var last_dst_details := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer2/LastDstDetails
+@onready var source_hosts := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer2/SrcHostCovered
+@onready var destination_hosts := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer2/DstHostCovered
+@onready var acl_selected := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SelectedAcl
 
 func _on_TextEdit_cursor_changed():
 	var ln = output_acls.get_caret_line()
@@ -315,13 +315,13 @@ func test_current_acls(src_ip : String, dst_ip : String):
 		"acl_triggered" : "deny any any"
 	}
 		
-@onready var action_triggered := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/ActionTriggered
-@onready var acl_number_triggered := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/AclNumberTriggered
-@onready var acl_triggered := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/AclTriggered
-@onready var acl_calculated := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/AclCalculated
+@onready var action_triggered := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer3/ActionTriggered
+@onready var acl_number_triggered := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer3/AclNumberTriggered
+@onready var acl_triggered := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer3/AclTriggered
+@onready var acl_calculated := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer3/AclCalculated
 
-@onready var test_src_ip := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1/TestSrcIp
-@onready var test_dst_ip := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1/TestDstIp
+@onready var test_src_ip := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/TestAclContainer1/TestSrcIp
+@onready var test_dst_ip := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/TestAclContainer1/TestDstIp
 
 func _on_TestAclButton_pressed():
 	var result = test_current_acls(test_src_ip.text, test_dst_ip.text)
