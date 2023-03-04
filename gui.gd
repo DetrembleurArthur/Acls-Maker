@@ -146,12 +146,15 @@ class AclSorter:
 	static func sort(a, b):
 		return b["src"]["mask-value"] < a["src"]["mask-value"]
 
+var sorted_acls : Array
+
 func show_acls_lines(var merged_range : Array,
 					 var number : int,
 					 var protocol : String,
 					 var src_details : String,
 					 var dst_details : String):
 	var buffer := ""
+	sorted_acls = merged_range
 	for rng in merged_range:
 		buffer += "access-list %d %s " % [number, rng['action']]
 		if number >= 100:
@@ -291,7 +294,7 @@ func test_current_acls(var src_ip : String, var dst_ip : String):
 	var src_value := get_value(src_ip)
 	var dst_value := get_value(dst_ip)
 	var i := 0
-	for acl in current_acls:
+	for acl in sorted_acls:
 		var action = acl['action']
 		var src_acl = acl['src']
 		var dst_acl = acl['dst']
