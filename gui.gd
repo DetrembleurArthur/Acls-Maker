@@ -25,8 +25,8 @@ func _ready():
 	update_src_hosts_number()
 	update_dst_hosts_number()
 
-func get_value(var ip : String):
-	var value = 0
+func get_value(var ip : String) -> int:
+	var value := 0
 	var i = 0
 	var split = ip.rsplit(".", false, 4)
 	for s in split:
@@ -284,3 +284,51 @@ func _on_TextEdit_cursor_changed():
 		first_dst_details.text = dst['ip-str']
 		last_dst_details.text = to_str_ip(dst['ip-value'] + dst['mask-value'])
 		destination_hosts.text = String(dst['mask-value'] + 1) if dst['ip-value'] != 0 else "all"
+
+
+
+func test_current_acls(var src_ip : String, var dst_ip : String):
+	var src_value := get_value(src_ip)
+	var dst_value := get_value(dst_ip)
+	var i := 0
+	for acl in current_acls:
+		var action = acl['action']
+		var src_acl = acl['src']
+		var dst_acl = acl['dst']
+		var src_or_op = src_acl['ip-value'] | src_acl['mask-value']
+		if src_value | src_acl['mask-value'] == src_or_op or src_acl['ip-value'] == 0:
+			var dst_or_op = dst_acl['ip-value'] | dst_acl['mask-value']
+			if dst_value | dst_acl['mask-value'] == dst_or_op or dst_acl['ip-value'] == 0:
+				output_acls.cursor_set_line(i)
+				return {
+					"action" : action,
+					"acl_number" : i + 1,
+					"acl_calculated" : i + 1,
+					"acl_triggered" : output_acls.get_line(i)
+				}
+		i += 1
+	return {
+		"action" : "deny (implicit)",
+		"acl_number" : i + 1,
+		"acl_calculated" : i + 1,
+		"acl_triggered" : "deny any any"
+	}
+		
+onready var action_triggered := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/ActionTriggered
+onready var acl_number_triggered := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/AclNumberTriggered
+onready var acl_triggered := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/AclTriggered
+onready var acl_calculated := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/AclCalculated
+
+onready var test_src_ip := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1/TestSrcIp
+onready var test_dst_ip := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1/TestDstIp
+
+func _on_TestAclButton_pressed():
+	var result = test_current_acls(test_src_ip.text, test_dst_ip.text)
+	action_triggered.text = result['action']
+	acl_number_triggered.text = String(result['acl_number'])
+	acl_triggered.text = result['acl_triggered']
+	acl_calculated.text = String(result['acl_calculated'])
+
+
+
+

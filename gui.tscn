@@ -25,7 +25,7 @@ scroll_horizontal_enabled = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer/ScrollContainer"]
 margin_right = 263.0
-margin_bottom = 731.0
+margin_bottom = 1057.0
 custom_constants/separation = 30
 
 [node name="GridContainer" type="GridContainer" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
@@ -251,16 +251,21 @@ margin_right = 263.0
 margin_bottom = 498.0
 text = "Sort by src mask"
 
-[node name="SelectedAcl" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
 margin_top = 528.0
 margin_right = 263.0
-margin_bottom = 542.0
+margin_bottom = 532.0
+
+[node name="SelectedAcl" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+margin_top = 562.0
+margin_right = 263.0
+margin_bottom = 576.0
 text = "select acl"
 
 [node name="GridContainer2" type="GridContainer" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
-margin_top = 572.0
+margin_top = 606.0
 margin_right = 263.0
-margin_bottom = 731.0
+margin_bottom = 765.0
 custom_constants/vseparation = 15
 custom_constants/hseparation = 20
 columns = 2
@@ -349,6 +354,119 @@ margin_right = 209.0
 margin_bottom = 159.0
 text = "select acl"
 
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+margin_top = 795.0
+margin_right = 263.0
+margin_bottom = 799.0
+
+[node name="TestAclContainer1" type="GridContainer" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+margin_top = 829.0
+margin_right = 263.0
+margin_bottom = 891.0
+custom_constants/vseparation = 10
+columns = 2
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1"]
+margin_top = 6.0
+margin_right = 46.0
+margin_bottom = 20.0
+text = "Src ip: "
+
+[node name="TestSrcIp" type="LineEdit" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1"]
+margin_left = 50.0
+margin_right = 180.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 130, 0 )
+hint_tooltip = "Put the first ip address here"
+max_length = 15
+clear_button_enabled = true
+placeholder_text = "192.168.1.1"
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="Label2" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1"]
+margin_top = 42.0
+margin_right = 46.0
+margin_bottom = 56.0
+text = "Dst ip: "
+
+[node name="TestDstIp" type="LineEdit" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1"]
+margin_left = 50.0
+margin_top = 36.0
+margin_right = 180.0
+margin_bottom = 62.0
+rect_min_size = Vector2( 130, 0 )
+hint_tooltip = "Put the first ip address here"
+max_length = 15
+clear_button_enabled = true
+placeholder_text = "10.10.10.1"
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="TestAclButton" type="Button" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+margin_top = 921.0
+margin_right = 263.0
+margin_bottom = 941.0
+text = "Test ACL"
+
+[node name="GridContainer3" type="GridContainer" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+margin_top = 971.0
+margin_right = 263.0
+margin_bottom = 1057.0
+rect_pivot_offset = Vector2( 179, -220 )
+custom_constants/vseparation = 10
+columns = 2
+
+[node name="Label3" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+margin_right = 147.0
+margin_bottom = 14.0
+text = "Action triggered: "
+
+[node name="ActionTriggered" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+margin_left = 151.0
+margin_right = 217.0
+margin_bottom = 14.0
+text = "test an acl"
+
+[node name="Label5" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+margin_top = 24.0
+margin_right = 147.0
+margin_bottom = 38.0
+text = "ACL number triggered: "
+
+[node name="AclNumberTriggered" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+margin_left = 151.0
+margin_top = 24.0
+margin_right = 217.0
+margin_bottom = 38.0
+text = "test an acl"
+
+[node name="Label7" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+margin_top = 48.0
+margin_right = 147.0
+margin_bottom = 62.0
+text = "ACL triggered: "
+
+[node name="AclTriggered" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+margin_left = 151.0
+margin_top = 48.0
+margin_right = 217.0
+margin_bottom = 62.0
+text = "test an acl"
+
+[node name="Label9" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+margin_top = 72.0
+margin_right = 147.0
+margin_bottom = 86.0
+text = "ACLs calculated: "
+
+[node name="AclCalculated" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+margin_left = 151.0
+margin_top = 72.0
+margin_right = 217.0
+margin_bottom = 86.0
+text = "test an acl"
+
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
 margin_left = 295.0
 margin_right = 1010.0
@@ -435,6 +553,7 @@ dialog_autowrap = true
 [connection signal="item_selected" from="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/GenModeOptionButton" to="." method="_on_GenModeOptionButton_item_selected"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/Button" to="." method="_generated_acls_button"]
 [connection signal="toggled" from="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/SortCheckBox" to="." method="_on_sort_by_mask_toggled"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclButton" to="." method="_on_TestAclButton_pressed"]
 [connection signal="cursor_changed" from="PanelContainer/HBoxContainer/VBoxContainer2/TextEdit" to="." method="_on_TextEdit_cursor_changed"]
 [connection signal="toggled" from="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer/CheckButton" to="." method="_on_edit_checkbox"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Button" to="." method="_on_save_button"]
