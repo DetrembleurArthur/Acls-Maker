@@ -17,11 +17,19 @@ config/icon="res://882730.png"
 
 [display]
 
-window/size/viewport_height=704
+window/size/viewport_width=1440
+window/size/viewport_height=900
 
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+
+[input]
+
+fullscreen={
+"deadzone": 0.5,
+"events": []
+}
 
 [physics]
 

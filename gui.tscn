@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ce6ltrfdeq6yu"]
+[gd_scene load_steps=11 format=3 uid="uid://ce6ltrfdeq6yu"]
 
 [ext_resource type="Script" path="res://gui.gd" id="2"]
 
@@ -35,6 +35,14 @@ keycode = 83
 
 [sub_resource type="Shortcut" id="Shortcut_10gpe"]
 events = [SubResource("InputEventKey_ffqcn"), null]
+
+[sub_resource type="InputEventKey" id="InputEventKey_ry0wu"]
+alt_pressed = true
+pressed = true
+keycode = 70
+
+[sub_resource type="Shortcut" id="Shortcut_yncww"]
+events = [SubResource("InputEventKey_ry0wu")]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -425,6 +433,10 @@ text = "ACLs calculated: "
 layout_mode = 2
 text = "test an acl"
 
+[node name="Container" type="Container" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
 [node name="Container" type="Container" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer"]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
@@ -489,6 +501,11 @@ text = "Save"
 layout_mode = 2
 text = "Copy"
 
+[node name="FullscreenButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+shortcut = SubResource("Shortcut_yncww")
+text = "Fulscreen"
+
 [node name="Container" type="Container" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
@@ -512,4 +529,5 @@ dialog_autowrap = true
 [connection signal="toggled" from="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/CheckButton" to="." method="_on_edit_checkbox"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Button" to="." method="_on_save_button"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Button2" to="." method="_on_copy_button"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/FullscreenButton" to="." method="_on_fullscreen_button_pressed"]
 [connection signal="file_selected" from="PanelContainer/VBoxContainer/SaveFileDialog" to="." method="_on_SaveFileDialog_file_selected"]
