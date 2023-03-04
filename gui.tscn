@@ -1,561 +1,481 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://ce6ltrfdeq6yu"]
 
-[ext_resource path="res://gui.gd" type="Script" id=2]
+[ext_resource type="Script" path="res://gui.gd" id="2"]
+
+[sub_resource type="CodeHighlighter" id="CodeHighlighter_kjxff"]
+number_color = Color(0.662745, 0.788235, 1, 1)
+symbol_color = Color(1, 1, 1, 1)
+keyword_colors = {
+"any": Color(0.933333, 0.388235, 0.941176, 1),
+"deny": Color(1, 0.301961, 0.235294, 1),
+"host": Color(0.933333, 0.388235, 0.941176, 1),
+"permit": Color(0.32549, 1, 0.298039, 1)
+}
 
 [node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 2 )
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 1017.0
-margin_bottom = 697.0
-custom_constants/separation = 20
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/HBoxContainer"]
-margin_right = 275.0
-margin_bottom = 690.0
-scroll_horizontal_enabled = false
+[node name="Container" type="Container" parent="PanelContainer/VBoxContainer"]
+show_behind_parent = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer/ScrollContainer"]
-margin_right = 263.0
-margin_bottom = 1057.0
-custom_constants/separation = 30
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
-margin_right = 263.0
-margin_bottom = 378.0
-custom_constants/vseparation = 10
+[node name="Container" type="Container" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+show_behind_parent = true
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+clip_contents = false
+layout_mode = 2
+auto_translate = false
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/v_separation = 15
 columns = 2
 
-[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_top = 6.0
-margin_right = 129.0
-margin_bottom = 20.0
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
 text = "First Src Ip: "
 
-[node name="FirstSrcIp" type="LineEdit" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 133.0
-margin_right = 263.0
-margin_bottom = 26.0
-rect_min_size = Vector2( 130, 0 )
-hint_tooltip = "Put the first ip address here"
+[node name="FirstSrcIp" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+tooltip_text = "Put the first ip address here"
+placeholder_text = "192.168.1.0"
 max_length = 15
 clear_button_enabled = true
-placeholder_text = "192.168.1.0"
 caret_blink = true
-caret_blink_speed = 0.5
+caret_blink_interval = 0.5
 
-[node name="Label2" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_top = 42.0
-margin_right = 129.0
-margin_bottom = 56.0
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
 text = "Last Src Ip: "
 
-[node name="LastSrcIp" type="LineEdit" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 133.0
-margin_top = 36.0
-margin_right = 263.0
-margin_bottom = 62.0
-rect_min_size = Vector2( 130, 0 )
-hint_tooltip = "Put the last ip address here"
+[node name="LastSrcIp" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+tooltip_text = "Put the last ip address here"
+placeholder_text = "192.168.1.255"
 max_length = 15
 clear_button_enabled = true
-placeholder_text = "192.168.1.255"
 caret_blink = true
-caret_blink_speed = 0.5
+caret_blink_interval = 0.5
 
-[node name="SrcHostsLabel" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_top = 72.0
-margin_right = 129.0
-margin_bottom = 86.0
+[node name="SrcHostsLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
 text = "Src Hosts: "
 
-[node name="SrcHosts" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 133.0
-margin_top = 72.0
-margin_right = 263.0
-margin_bottom = 86.0
+[node name="SrcHosts" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
 text = "0"
 
-[node name="Label3" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_top = 102.0
-margin_right = 129.0
-margin_bottom = 116.0
+[node name="Label3" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
 text = "First Dst  Ip: "
 
-[node name="FirstDstIp" type="LineEdit" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 133.0
-margin_top = 96.0
-margin_right = 263.0
-margin_bottom = 122.0
-rect_min_size = Vector2( 130, 0 )
-hint_tooltip = "Put the first destination address here"
+[node name="FirstDstIp" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+tooltip_text = "Put the first destination address here"
+placeholder_text = "10.10.10.0"
 max_length = 15
 clear_button_enabled = true
-placeholder_text = "10.10.10.0"
 caret_blink = true
-caret_blink_speed = 0.5
+caret_blink_interval = 0.5
 
-[node name="Label4" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_top = 138.0
-margin_right = 129.0
-margin_bottom = 152.0
+[node name="Label4" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
 text = "Last Dst Ip: "
 
-[node name="LastDstIp" type="LineEdit" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 133.0
-margin_top = 132.0
-margin_right = 263.0
-margin_bottom = 158.0
-rect_min_size = Vector2( 130, 0 )
-hint_tooltip = "Put the last destination address here"
+[node name="LastDstIp" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+tooltip_text = "Put the last destination address here"
+placeholder_text = "0.0.0.255"
 max_length = 15
 clear_button_enabled = true
-placeholder_text = "0.0.0.255"
 caret_blink = true
-caret_blink_speed = 0.5
+caret_blink_interval = 0.5
 
-[node name="Label12" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_top = 168.0
-margin_right = 129.0
-margin_bottom = 182.0
+[node name="Label12" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
 text = "Dst Hosts: "
 
-[node name="DstHosts" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 133.0
-margin_top = 168.0
-margin_right = 263.0
-margin_bottom = 182.0
+[node name="DstHosts" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
 text = "0"
 
-[node name="Label5" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_top = 195.0
-margin_right = 129.0
-margin_bottom = 209.0
+[node name="Label5" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
 text = "Protocol: "
 
-[node name="Protocol" type="OptionButton" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 133.0
-margin_top = 192.0
-margin_right = 263.0
-margin_bottom = 212.0
-rect_min_size = Vector2( 130, 0 )
-hint_tooltip = "Put the filtered protocol here"
+[node name="Protocol" type="OptionButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+tooltip_text = "Put the filtered protocol here"
 disabled = true
-text = "tcp"
-items = [ "ahp", null, false, 0, null, "eigrp", null, false, 1, null, "esp", null, false, 2, null, "gre", null, false, 3, null, "icmp", null, false, 4, null, "ip", null, false, 5, null, "ospf", null, false, 6, null, "tcp", null, false, 7, null, "udp", null, false, 8, null ]
+item_count = 9
 selected = 7
+popup/item_0/text = "ahp"
+popup/item_0/id = 0
+popup/item_1/text = "eigrp"
+popup/item_1/id = 1
+popup/item_2/text = "esp"
+popup/item_2/id = 2
+popup/item_3/text = "gre"
+popup/item_3/id = 3
+popup/item_4/text = "icmp"
+popup/item_4/id = 4
+popup/item_5/text = "ip"
+popup/item_5/id = 5
+popup/item_6/text = "ospf"
+popup/item_6/id = 6
+popup/item_7/text = "tcp"
+popup/item_7/id = 7
+popup/item_8/text = "udp"
+popup/item_8/id = 8
 
-[node name="Label6" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_top = 227.0
-margin_right = 129.0
-margin_bottom = 241.0
+[node name="Label6" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
 text = "ACL number: "
 
-[node name="AclNumber" type="SpinBox" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 133.0
-margin_top = 222.0
-margin_right = 263.0
-margin_bottom = 246.0
-hint_tooltip = "Put the extended ACL number here"
+[node name="AclNumber" type="SpinBox" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+tooltip_text = "Put the extended ACL number here"
 min_value = 1.0
 max_value = 199.0
 value = 1.0
 
-[node name="Label7" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_top = 262.0
-margin_right = 129.0
-margin_bottom = 276.0
+[node name="Label7" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
 text = "Source details: "
 
-[node name="SrcDetails" type="LineEdit" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 133.0
-margin_top = 256.0
-margin_right = 263.0
-margin_bottom = 282.0
-rect_min_size = Vector2( 130, 0 )
-hint_tooltip = "Put the source details here"
+[node name="SrcDetails" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+tooltip_text = "Put the source details here"
+placeholder_text = "eq 443"
 max_length = 15
 editable = false
 clear_button_enabled = true
-placeholder_text = "eq 443"
 caret_blink = true
-caret_blink_speed = 0.5
+caret_blink_interval = 0.5
 
-[node name="Label8" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_top = 298.0
-margin_right = 129.0
-margin_bottom = 312.0
+[node name="Label8" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
 text = "Destination details: "
 
-[node name="DstDetails" type="LineEdit" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 133.0
-margin_top = 292.0
-margin_right = 263.0
-margin_bottom = 318.0
-rect_min_size = Vector2( 130, 0 )
-hint_tooltip = "Put the destination details here"
+[node name="DstDetails" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+tooltip_text = "Put the destination details here"
+placeholder_text = "eq 443"
 max_length = 15
 editable = false
 clear_button_enabled = true
-placeholder_text = "eq 443"
 caret_blink = true
-caret_blink_speed = 0.5
+caret_blink_interval = 0.5
 
-[node name="Label9" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_top = 331.0
-margin_right = 129.0
-margin_bottom = 345.0
+[node name="Label9" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
 text = "ACL type: "
 
-[node name="AclType" type="OptionButton" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 133.0
-margin_top = 328.0
-margin_right = 263.0
-margin_bottom = 348.0
-text = "permit"
-items = [ "permit", null, false, 0, null, "deny", null, false, 1, null ]
+[node name="AclType" type="OptionButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+item_count = 2
 selected = 0
+popup/item_0/text = "permit"
+popup/item_0/id = 0
+popup/item_1/text = "deny"
+popup/item_1/id = 1
 
-[node name="Label10" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_top = 361.0
-margin_right = 129.0
-margin_bottom = 375.0
+[node name="Label10" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
 text = "Generation mode: "
 
-[node name="GenModeOptionButton" type="OptionButton" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 133.0
-margin_top = 358.0
-margin_right = 263.0
-margin_bottom = 378.0
-text = "permit only"
-items = [ "permit only", null, false, 0, null, "allow out of band", null, false, 1, null, "auto", null, false, 2, null ]
+[node name="GenModeOptionButton" type="OptionButton" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+item_count = 3
 selected = 0
+popup/item_0/text = "permit only"
+popup/item_0/id = 0
+popup/item_1/text = "allow out of band"
+popup/item_1/id = 1
+popup/item_2/text = "auto"
+popup/item_2/id = 2
 
-[node name="Button" type="Button" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
-margin_top = 408.0
-margin_right = 263.0
-margin_bottom = 428.0
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
 text = "Generate ACLs"
 
-[node name="SortCheckBox" type="CheckButton" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
-margin_top = 458.0
-margin_right = 263.0
-margin_bottom = 498.0
+[node name="SortCheckBox" type="CheckBox" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
 text = "Sort by src mask"
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
-margin_top = 528.0
-margin_right = 263.0
-margin_bottom = 532.0
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="SelectedAcl" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
-margin_top = 562.0
-margin_right = 263.0
-margin_bottom = 576.0
+[node name="SelectedAcl" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
 text = "select acl"
 
-[node name="GridContainer2" type="GridContainer" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
-margin_top = 606.0
-margin_right = 263.0
-margin_bottom = 765.0
-custom_constants/vseparation = 15
-custom_constants/hseparation = 20
+[node name="GridContainer2" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/v_separation = 15
 columns = 2
 
-[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
-margin_right = 128.0
-margin_bottom = 14.0
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
 text = "First src ip: "
 
-[node name="FirstSrcDetails" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
-margin_left = 148.0
-margin_right = 209.0
-margin_bottom = 14.0
+[node name="FirstSrcDetails" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
 text = "select acl"
 
-[node name="Label3" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
-margin_top = 29.0
-margin_right = 128.0
-margin_bottom = 43.0
-hint_tooltip = "Included in the range"
+[node name="Label3" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
+tooltip_text = "Included in the range"
 mouse_filter = 1
 text = "Last src ip : "
 
-[node name="LastSrcDetails" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
-margin_left = 148.0
-margin_top = 29.0
-margin_right = 209.0
-margin_bottom = 43.0
+[node name="LastSrcDetails" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
 text = "select acl"
 
-[node name="Label4" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
-margin_top = 58.0
-margin_right = 128.0
-margin_bottom = 72.0
-hint_tooltip = "Included in the range"
+[node name="Label4" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
+tooltip_text = "Included in the range"
 mouse_filter = 1
 text = "Src hosts covered : "
 
-[node name="SrcHostCovered" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
-margin_left = 148.0
-margin_top = 58.0
-margin_right = 209.0
-margin_bottom = 72.0
+[node name="SrcHostCovered" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
 text = "select acl"
 
-[node name="Label5" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
-margin_top = 87.0
-margin_right = 128.0
-margin_bottom = 101.0
+[node name="Label5" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
 text = "First dst ip: "
 
-[node name="FirstDstDetails" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
-margin_left = 148.0
-margin_top = 87.0
-margin_right = 209.0
-margin_bottom = 101.0
+[node name="FirstDstDetails" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
 text = "select acl"
 
-[node name="Label7" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
-margin_top = 116.0
-margin_right = 128.0
-margin_bottom = 130.0
-hint_tooltip = "Included in the range"
+[node name="Label7" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
+tooltip_text = "Included in the range"
 mouse_filter = 1
 text = "Last dst ip: "
 
-[node name="LastDstDetails" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
-margin_left = 148.0
-margin_top = 116.0
-margin_right = 209.0
-margin_bottom = 130.0
+[node name="LastDstDetails" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
 text = "select acl"
 
-[node name="Label6" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
-margin_top = 145.0
-margin_right = 128.0
-margin_bottom = 159.0
-hint_tooltip = "Included in the range"
+[node name="Label6" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
+tooltip_text = "Included in the range"
 mouse_filter = 1
 text = "Dst hosts covered : "
 
-[node name="DstHostCovered" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
-margin_left = 148.0
-margin_top = 145.0
-margin_right = 209.0
-margin_bottom = 159.0
+[node name="DstHostCovered" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
 text = "select acl"
 
-[node name="HSeparator2" type="HSeparator" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
-margin_top = 795.0
-margin_right = 263.0
-margin_bottom = 799.0
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
 
-[node name="TestAclContainer1" type="GridContainer" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
-margin_top = 829.0
-margin_right = 263.0
-margin_bottom = 891.0
-custom_constants/vseparation = 10
+[node name="TestAclContainer1" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/v_separation = 15
 columns = 2
 
-[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1"]
-margin_top = 6.0
-margin_right = 46.0
-margin_bottom = 20.0
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1"]
+layout_mode = 2
 text = "Src ip: "
 
-[node name="TestSrcIp" type="LineEdit" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1"]
-margin_left = 50.0
-margin_right = 180.0
-margin_bottom = 26.0
-rect_min_size = Vector2( 130, 0 )
-hint_tooltip = "Put the first ip address here"
+[node name="TestSrcIp" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+tooltip_text = "Put the first ip address here"
+placeholder_text = "192.168.1.1"
 max_length = 15
 clear_button_enabled = true
-placeholder_text = "192.168.1.1"
 caret_blink = true
-caret_blink_speed = 0.5
+caret_blink_interval = 0.5
 
-[node name="Label2" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1"]
-margin_top = 42.0
-margin_right = 46.0
-margin_bottom = 56.0
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1"]
+layout_mode = 2
 text = "Dst ip: "
 
-[node name="TestDstIp" type="LineEdit" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1"]
-margin_left = 50.0
-margin_top = 36.0
-margin_right = 180.0
-margin_bottom = 62.0
-rect_min_size = Vector2( 130, 0 )
-hint_tooltip = "Put the first ip address here"
+[node name="TestDstIp" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+tooltip_text = "Put the first ip address here"
+placeholder_text = "10.10.10.1"
 max_length = 15
 clear_button_enabled = true
-placeholder_text = "10.10.10.1"
 caret_blink = true
-caret_blink_speed = 0.5
+caret_blink_interval = 0.5
 
-[node name="TestAclButton" type="Button" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
-margin_top = 921.0
-margin_right = 263.0
-margin_bottom = 941.0
+[node name="TestAclButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
 text = "Test ACL"
 
-[node name="GridContainer3" type="GridContainer" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
-margin_top = 971.0
-margin_right = 263.0
-margin_bottom = 1057.0
-rect_pivot_offset = Vector2( 179, -220 )
-custom_constants/vseparation = 10
+[node name="GridContainer3" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/v_separation = 15
 columns = 2
 
-[node name="Label3" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
-margin_right = 147.0
-margin_bottom = 14.0
+[node name="Label3" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+layout_mode = 2
 text = "Action triggered: "
 
-[node name="ActionTriggered" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
-margin_left = 151.0
-margin_right = 217.0
-margin_bottom = 14.0
+[node name="ActionTriggered" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+layout_mode = 2
 text = "test an acl"
 
-[node name="Label5" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
-margin_top = 24.0
-margin_right = 147.0
-margin_bottom = 38.0
+[node name="Label5" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+layout_mode = 2
 text = "ACL number triggered: "
 
-[node name="AclNumberTriggered" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
-margin_left = 151.0
-margin_top = 24.0
-margin_right = 217.0
-margin_bottom = 38.0
+[node name="AclNumberTriggered" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+layout_mode = 2
 text = "test an acl"
 
-[node name="Label7" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
-margin_top = 48.0
-margin_right = 147.0
-margin_bottom = 62.0
+[node name="Label7" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+layout_mode = 2
 text = "ACL triggered: "
 
-[node name="AclTriggered" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
-margin_left = 151.0
-margin_top = 48.0
-margin_right = 217.0
-margin_bottom = 62.0
+[node name="AclTriggered" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+layout_mode = 2
 text = "test an acl"
 
-[node name="Label9" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
-margin_top = 72.0
-margin_right = 147.0
-margin_bottom = 86.0
+[node name="Label9" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+layout_mode = 2
 text = "ACLs calculated: "
 
-[node name="AclCalculated" type="Label" parent="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
-margin_left = 151.0
-margin_top = 72.0
-margin_right = 217.0
-margin_bottom = 86.0
+[node name="AclCalculated" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3"]
+layout_mode = 2
 text = "test an acl"
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
-margin_left = 295.0
-margin_right = 1010.0
-margin_bottom = 690.0
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_stretch_ratio = 2.82
+theme_override_constants/separation = 15
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer2"]
-margin_right = 715.0
-margin_bottom = 14.0
-custom_constants/separation = 20
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2"]
-margin_right = 102.0
-margin_bottom = 14.0
+[node name="TitleLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer2"]
+layout_mode = 2
 text = "Generated ACLs"
 
-[node name="AclsSize" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2"]
-margin_left = 122.0
-margin_right = 122.0
-margin_bottom = 14.0
+[node name="AclsSize" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer2"]
+layout_mode = 2
 
-[node name="TextEdit" type="TextEdit" parent="PanelContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 18.0
-margin_right = 715.0
-margin_bottom = 646.0
+[node name="TextEdit" type="CodeEdit" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-highlight_current_line = true
-syntax_highlighting = true
-show_line_numbers = true
-bookmark_gutter = true
-fold_gutter = true
+theme_override_constants/completion_lines = 5
+theme_override_constants/completion_max_width = 100
+theme_override_font_sizes/font_size = 20
+placeholder_text = "ACLs will be written here"
 highlight_all_occurrences = true
+highlight_current_line = true
+draw_tabs = true
+syntax_highlighter = SubResource("CodeHighlighter_kjxff")
+minimap_draw = true
+structured_text_bidi_override = 4
+symbol_lookup_on_click = true
+line_folding = true
+gutters_draw_bookmarks = true
+gutters_draw_executing_lines = true
+gutters_draw_line_numbers = true
+gutters_zero_pad_line_numbers = true
+gutters_draw_fold_gutter = true
+delimiter_strings = Array[String](["\" \"", "' '"])
+code_completion_enabled = true
+auto_brace_completion_enabled = true
+auto_brace_completion_highlight_matching = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer2"]
-margin_top = 650.0
-margin_right = 715.0
-margin_bottom = 690.0
-custom_constants/separation = 30
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 20
 
-[node name="CheckButton" type="CheckButton" parent="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_right = 131.0
-margin_bottom = 40.0
-pressed = true
+[node name="CheckButton" type="CheckButton" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+button_pressed = true
 text = "Editable"
 
-[node name="Button" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_left = 161.0
-margin_right = 202.0
-margin_bottom = 40.0
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
 text = "Save"
 
-[node name="Button2" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_left = 232.0
-margin_right = 275.0
-margin_bottom = 40.0
+[node name="Button2" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
 text = "Copy"
 
-[node name="SaveFileDialog" type="FileDialog" parent="PanelContainer"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 507.0
-margin_bottom = 307.0
-rect_min_size = Vector2( 250, 70 )
-popup_exclusive = true
-resizable = true
+[node name="Container" type="Container" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="SaveFileDialog" type="FileDialog" parent="PanelContainer/VBoxContainer"]
 access = 2
 
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="PanelContainer"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 1017.0
-margin_bottom = 593.0
-popup_exclusive = true
-window_title = "Success !"
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="PanelContainer/VBoxContainer"]
 dialog_autowrap = true
 
-[connection signal="text_changed" from="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/FirstSrcIp" to="." method="update_src_hosts_number"]
-[connection signal="text_changed" from="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/LastSrcIp" to="." method="update_src_hosts_number"]
-[connection signal="text_changed" from="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/FirstDstIp" to="." method="update_dst_hosts_number"]
-[connection signal="text_changed" from="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/LastDstIp" to="." method="update_dst_hosts_number"]
-[connection signal="value_changed" from="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/AclNumber" to="." method="_on_AclNumber_value_changed"]
-[connection signal="item_selected" from="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/GenModeOptionButton" to="." method="_on_GenModeOptionButton_item_selected"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/Button" to="." method="_generated_acls_button"]
-[connection signal="toggled" from="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/SortCheckBox" to="." method="_on_sort_by_mask_toggled"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclButton" to="." method="_on_TestAclButton_pressed"]
-[connection signal="cursor_changed" from="PanelContainer/HBoxContainer/VBoxContainer2/TextEdit" to="." method="_on_TextEdit_cursor_changed"]
-[connection signal="toggled" from="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer/CheckButton" to="." method="_on_edit_checkbox"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Button" to="." method="_on_save_button"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Button2" to="." method="_on_copy_button"]
-[connection signal="file_selected" from="PanelContainer/SaveFileDialog" to="." method="_on_SaveFileDialog_file_selected"]
+[connection signal="text_changed" from="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/FirstSrcIp" to="." method="update_src_hosts_number"]
+[connection signal="text_changed" from="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/LastSrcIp" to="." method="update_src_hosts_number"]
+[connection signal="text_changed" from="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/FirstDstIp" to="." method="update_dst_hosts_number"]
+[connection signal="text_changed" from="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/LastDstIp" to="." method="update_dst_hosts_number"]
+[connection signal="value_changed" from="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/AclNumber" to="." method="_on_AclNumber_value_changed"]
+[connection signal="item_selected" from="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/GenModeOptionButton" to="." method="_on_GenModeOptionButton_item_selected"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/Button" to="." method="_generated_acls_button"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/SortCheckBox" to="." method="_on_sort_by_mask_toggled"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclButton" to="." method="_on_TestAclButton_pressed"]
+[connection signal="caret_changed" from="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/TextEdit" to="." method="_on_TextEdit_cursor_changed"]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/CheckButton" to="." method="_on_edit_checkbox"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Button" to="." method="_on_save_button"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Button2" to="." method="_on_copy_button"]
+[connection signal="file_selected" from="PanelContainer/VBoxContainer/SaveFileDialog" to="." method="_on_SaveFileDialog_file_selected"]

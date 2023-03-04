@@ -1,23 +1,23 @@
 extends Control
 
-onready var first_src_ip_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/FirstSrcIp
-onready var last_src_ip_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/LastSrcIp
-onready var first_dest_ip_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/FirstDstIp
-onready var last_dest_ip_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/LastDstIp
-onready var protocol_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/Protocol
-onready var acl_number_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/AclNumber
-onready var src_details_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/SrcDetails
-onready var dst_details_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/DstDetails
-onready var output_acls := $PanelContainer/HBoxContainer/VBoxContainer2/TextEdit
-onready var file_dialog := $PanelContainer/SaveFileDialog
-onready var popup := $PanelContainer/ConfirmationDialog
-onready var acl_type_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/AclType
-onready var sort_by_mask_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/SortCheckBox
-onready var title_widget := $PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TitleLabel
-onready var acl_size := $PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/AclsSize
-onready var src_hosts_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/SrcHosts
-onready var dst_hosts_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/DstHosts
-onready var gen_mode_widget := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/GenModeOptionButton
+@onready var first_src_ip_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/FirstSrcIp
+@onready var last_src_ip_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/LastSrcIp
+@onready var first_dest_ip_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/FirstDstIp
+@onready var last_dest_ip_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/LastDstIp
+@onready var protocol_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/Protocol
+@onready var acl_number_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/AclNumber
+@onready var src_details_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/SrcDetails
+@onready var dst_details_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/DstDetails
+@onready var output_acls := $PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/TextEdit
+@onready var file_dialog := $PanelContainer/VBoxContainer/SaveFileDialog
+@onready var popup := $PanelContainer/VBoxContainer/ConfirmationDialog
+@onready var acl_type_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/AclType
+@onready var sort_by_mask_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/SortCheckBox
+@onready var title_widget := $PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/TitleLabel
+@onready var acl_size := $PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/AclsSize
+@onready var src_hosts_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/SrcHosts
+@onready var dst_hosts_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/DstHosts
+@onready var gen_mode_widget := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer/GenModeOptionButton
 var current_acls : Array
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,7 +25,7 @@ func _ready():
 	update_src_hosts_number()
 	update_dst_hosts_number()
 
-func get_value(var ip : String) -> int:
+func get_value(ip : String) -> int:
 	var value := 0
 	var i = 0
 	var split = ip.rsplit(".", false, 4)
@@ -34,7 +34,7 @@ func get_value(var ip : String) -> int:
 		i += 1
 	return value
 
-func update_src_hosts_number(var _a : String=""):
+func update_src_hosts_number(_a : String=""):
 	var first_src_ip = first_src_ip_widget.text
 	var last_src_ip = last_src_ip_widget.text
 	if first_src_ip.count(".") == 3 and last_src_ip.count(".") == 3:
@@ -42,7 +42,7 @@ func update_src_hosts_number(var _a : String=""):
 		var last_src_ip_value = get_value(last_src_ip)
 		src_hosts_widget.text = "%d" % (last_src_ip_value - first_src_ip_value + 1)
 
-func update_dst_hosts_number(var _a : String=""):
+func update_dst_hosts_number(_a : String=""):
 	var first_dst_ip = first_dest_ip_widget.text
 	var last_dst_ip = last_dest_ip_widget.text
 	if first_dst_ip.count(".") == 3 and last_dst_ip.count(".") == 3:
@@ -51,7 +51,7 @@ func update_dst_hosts_number(var _a : String=""):
 		dst_hosts_widget.text = "%d" % (last_dst_ip_value - first_dst_ip_value + 1)
 
 
-func compute_acls_with_deny(var first_src : int, var last_src : int, var first_dst : int, var last_dst : int):
+func compute_acls_with_deny(first_src : int, last_src : int, first_dst : int, last_dst : int):
 	var src_hosts = last_src - first_src + 1
 	var src_exponent = int(log(src_hosts) / log(2))
 	var src_biggest_block = int(pow(2, src_exponent)) - 1
@@ -76,7 +76,7 @@ func compute_acls_with_deny(var first_src : int, var last_src : int, var first_d
 	return deny_ranges + permit_ranges
 
 
-func to_str_ip(var address_value : int):
+func to_str_ip(address_value : int):
 	var buffer := ""
 	for i in range(0, 4):
 		if i != 0:
@@ -86,7 +86,7 @@ func to_str_ip(var address_value : int):
 		address_value >>= 8
 	return buffer
 
-func ip_range(var first_value : int, var last_value : int):
+func ip_range(first_value : int, last_value : int):
 	var current := first_value
 	var temp := 0
 	var counter := 0
@@ -123,7 +123,7 @@ func ip_range(var first_value : int, var last_value : int):
 		current += temp + 1
 	return acls
 
-func merge_ranges(var src_range : Array, var dst_range : Array, var action : String):
+func merge_ranges(src_range : Array, dst_range : Array, action : String):
 	var merged_ranges = []
 	for src in src_range:
 		for dst in dst_range:
@@ -136,7 +136,7 @@ func merge_ranges(var src_range : Array, var dst_range : Array, var action : Str
 			)
 	return merged_ranges
 
-func compute_acls(var first_src : int, var last_src : int, var first_dst : int, var last_dst : int, var action : String):
+func compute_acls(first_src : int, last_src : int, first_dst : int, last_dst : int, action : String):
 	var src_ranges = ip_range(first_src, last_src)
 	var dst_ranges = ip_range(first_dst, last_dst)
 	var merged_ranges = merge_ranges(src_ranges, dst_ranges, action)
@@ -144,15 +144,14 @@ func compute_acls(var first_src : int, var last_src : int, var first_dst : int, 
 
 class AclSorter:
 	static func sort(a, b):
-		return b["src"]["mask-value"] < a["src"]["mask-value"]
+		if b["src"]["mask-value"] != a["src"]["mask-value"]:
+			return b["src"]["mask-value"] < a["src"]["mask-value"]
+		else:
+			return b["dst"]["mask-value"] < a["dst"]["mask-value"]
 
 var sorted_acls : Array
 
-func show_acls_lines(var merged_range : Array,
-					 var number : int,
-					 var protocol : String,
-					 var src_details : String,
-					 var dst_details : String):
+func show_acls_lines(merged_range : Array,number : int,protocol : String,src_details : String,dst_details : String):
 	var buffer := ""
 	sorted_acls = merged_range
 	for rng in merged_range:
@@ -165,7 +164,7 @@ func show_acls_lines(var merged_range : Array,
 			buffer += "host %s " % rng["src"]["ip-str"]
 		else:
 			buffer += "%s %s " % [rng["src"]["ip-str"], rng["src"]["mask-str"]]
-		if number >= 100 and src_details:
+		if number >= 100 and not src_details.is_empty():
 			buffer += "%s " % src_details
 		if rng["dst"]["ip-value"] == 0:
 			buffer += "any "
@@ -173,7 +172,7 @@ func show_acls_lines(var merged_range : Array,
 			buffer += "host %s " % rng["dst"]["ip-str"]
 		else:
 			buffer += "%s %s " % [rng["dst"]["ip-str"], rng["dst"]["mask-str"]]
-		if number >= 100 and dst_details:
+		if number >= 100 and not dst_details.is_empty():
 			buffer += "%s " % dst_details
 		buffer += "\n"
 	output_acls.text = buffer
@@ -204,14 +203,14 @@ func _generated_acls_button():
 				current_acls = oob
 			else:
 				current_acls = permit_only
-	_on_sort_by_mask_toggled(sort_by_mask_widget.pressed)
+	_on_sort_by_mask_toggled(sort_by_mask_widget.button_pressed)
 	acl_size.text = "(%d)" % current_acls.size()
 
 
 
 
 func _on_edit_checkbox(button_pressed):
-	output_acls.readonly = not button_pressed
+	output_acls.editable = button_pressed
 
 
 func _on_save_button():
@@ -219,13 +218,12 @@ func _on_save_button():
 
 
 func _on_copy_button():
-	OS.clipboard = output_acls.text
+	DisplayServer.clipboard_set(output_acls.text)
 
 
 func _on_SaveFileDialog_file_selected(path):
-	var file := File.new()
+	var file := FileAccess.open(path, FileAccess.WRITE)
 # warning-ignore:return_value_discarded
-	file.open(path, File.WRITE)
 	file.store_string(output_acls.text)
 	file.close()
 	popup.dialog_text = "Your ACLs have been saved successfuly into '" + path + "'"
@@ -234,8 +232,8 @@ func _on_SaveFileDialog_file_selected(path):
 	
 
 
-# warning-ignore:unused_argument
-func _on_sort_by_mask_toggled(button_pressed):
+func _on_sort_by_mask_toggled(button_pressed: bool):
+	print(button_pressed)
 	if current_acls:
 		var source_details = src_details_widget.text
 		var dest_details = dst_details_widget.text
@@ -249,7 +247,7 @@ func _on_sort_by_mask_toggled(button_pressed):
 					permit_acls.append(acl)
 				else:
 					deny_acls.append(acl)
-			permit_acls.sort_custom(AclSorter, "sort")
+			permit_acls.sort_custom(Callable(AclSorter,"sort"))
 			show_acls_lines(deny_acls + permit_acls, number, protocol, source_details, dest_details)
 		else:
 			show_acls_lines(current_acls, number, protocol, source_details, dest_details)
@@ -267,30 +265,30 @@ func _on_GenModeOptionButton_item_selected(index):
 	acl_type_widget.text = "permit" if index == 0 else "deny"
 	acl_type_widget.disabled = index == 1
 
-onready var first_src_details := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/FirstSrcDetails
-onready var last_src_details := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/LastSrcDetails
-onready var first_dst_details := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/FirstDstDetails
-onready var last_dst_details := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/LastDstDetails
-onready var source_hosts := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/SrcHostCovered
-onready var destination_hosts := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/DstHostCovered
-onready var acl_selected := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/SelectedAcl
+@onready var first_src_details := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/FirstSrcDetails
+@onready var last_src_details := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/LastSrcDetails
+@onready var first_dst_details := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/FirstDstDetails
+@onready var last_dst_details := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/LastDstDetails
+@onready var source_hosts := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/SrcHostCovered
+@onready var destination_hosts := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer2/DstHostCovered
+@onready var acl_selected := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/SelectedAcl
 
 func _on_TextEdit_cursor_changed():
-	var ln = output_acls.cursor_get_line()
+	var ln = output_acls.get_caret_line()
 	if current_acls and current_acls.size() > ln:
 		acl_selected.text = output_acls.get_line(ln)
 		var src = current_acls[ln]['src']
 		var dst = current_acls[ln]['dst']
 		first_src_details.text = src['ip-str']
 		last_src_details.text = to_str_ip(src['ip-value'] + src['mask-value'])
-		source_hosts.text = String(src['mask-value'] + 1) if src['ip-value'] != 0 else "all"
+		source_hosts.text = String.num_int64(src['mask-value'] + 1) if src['ip-value'] != 0 else "all"
 		first_dst_details.text = dst['ip-str']
 		last_dst_details.text = to_str_ip(dst['ip-value'] + dst['mask-value'])
-		destination_hosts.text = String(dst['mask-value'] + 1) if dst['ip-value'] != 0 else "all"
+		destination_hosts.text = String.num_int64(dst['mask-value'] + 1) if dst['ip-value'] != 0 else "all"
 
 
 
-func test_current_acls(var src_ip : String, var dst_ip : String):
+func test_current_acls(src_ip : String, dst_ip : String):
 	var src_value := get_value(src_ip)
 	var dst_value := get_value(dst_ip)
 	var i := 0
@@ -302,7 +300,7 @@ func test_current_acls(var src_ip : String, var dst_ip : String):
 		if src_value | src_acl['mask-value'] == src_or_op or src_acl['ip-value'] == 0:
 			var dst_or_op = dst_acl['ip-value'] | dst_acl['mask-value']
 			if dst_value | dst_acl['mask-value'] == dst_or_op or dst_acl['ip-value'] == 0:
-				output_acls.cursor_set_line(i)
+				output_acls.set_caret_line(i)
 				return {
 					"action" : action,
 					"acl_number" : i + 1,
@@ -317,20 +315,20 @@ func test_current_acls(var src_ip : String, var dst_ip : String):
 		"acl_triggered" : "deny any any"
 	}
 		
-onready var action_triggered := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/ActionTriggered
-onready var acl_number_triggered := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/AclNumberTriggered
-onready var acl_triggered := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/AclTriggered
-onready var acl_calculated := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/AclCalculated
+@onready var action_triggered := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/ActionTriggered
+@onready var acl_number_triggered := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/AclNumberTriggered
+@onready var acl_triggered := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/AclTriggered
+@onready var acl_calculated := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/GridContainer3/AclCalculated
 
-onready var test_src_ip := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1/TestSrcIp
-onready var test_dst_ip := $PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1/TestDstIp
+@onready var test_src_ip := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1/TestSrcIp
+@onready var test_dst_ip := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/VBoxContainer/TestAclContainer1/TestDstIp
 
 func _on_TestAclButton_pressed():
 	var result = test_current_acls(test_src_ip.text, test_dst_ip.text)
 	action_triggered.text = result['action']
-	acl_number_triggered.text = String(result['acl_number'])
+	acl_number_triggered.text = String.num_int64(result['acl_number'])
 	acl_triggered.text = result['acl_triggered']
-	acl_calculated.text = String(result['acl_calculated'])
+	acl_calculated.text = String.num_int64(result['acl_calculated'])
 
 
 
