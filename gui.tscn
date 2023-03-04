@@ -1,6 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://ce6ltrfdeq6yu"]
+[gd_scene load_steps=9 format=3 uid="uid://ce6ltrfdeq6yu"]
 
 [ext_resource type="Script" path="res://gui.gd" id="2"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_o8h7q"]
+ctrl_pressed = true
+pressed = true
+keycode = 71
+
+[sub_resource type="Shortcut" id="Shortcut_icnmy"]
+events = [SubResource("InputEventKey_o8h7q"), null]
+
+[sub_resource type="InputEventKey" id="InputEventKey_bd6fe"]
+ctrl_pressed = true
+pressed = true
+keycode = 84
+
+[sub_resource type="Shortcut" id="Shortcut_gwber"]
+events = [SubResource("InputEventKey_bd6fe"), null]
 
 [sub_resource type="CodeHighlighter" id="CodeHighlighter_kjxff"]
 number_color = Color(0.662745, 0.788235, 1, 1)
@@ -11,6 +27,14 @@ keyword_colors = {
 "host": Color(0.933333, 0.388235, 0.941176, 1),
 "permit": Color(0.32549, 1, 0.298039, 1)
 }
+
+[sub_resource type="InputEventKey" id="InputEventKey_ffqcn"]
+ctrl_pressed = true
+pressed = true
+keycode = 83
+
+[sub_resource type="Shortcut" id="Shortcut_10gpe"]
+events = [SubResource("InputEventKey_ffqcn"), null]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -40,7 +64,6 @@ custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
-clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 20
@@ -245,10 +268,12 @@ popup/item_2/id = 2
 
 [node name="Button" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+shortcut = SubResource("Shortcut_icnmy")
 text = "Generate ACLs"
 
 [node name="SortCheckBox" type="CheckBox" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/h_separation = 20
 text = "Sort by src mask"
 
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
@@ -359,6 +384,7 @@ caret_blink_interval = 0.5
 
 [node name="TestAclButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+shortcut = SubResource("Shortcut_gwber")
 text = "Test ACL"
 
 [node name="GridContainer3" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
@@ -456,6 +482,7 @@ text = "Editable"
 
 [node name="Button" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
 layout_mode = 2
+shortcut = SubResource("Shortcut_10gpe")
 text = "Save"
 
 [node name="Button2" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
