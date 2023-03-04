@@ -233,7 +233,6 @@ func _on_SaveFileDialog_file_selected(path):
 
 
 func _on_sort_by_mask_toggled(button_pressed: bool):
-	print(button_pressed)
 	if current_acls:
 		var source_details = src_details_widget.text
 		var dest_details = dst_details_widget.text
@@ -247,6 +246,7 @@ func _on_sort_by_mask_toggled(button_pressed: bool):
 					permit_acls.append(acl)
 				else:
 					deny_acls.append(acl)
+			deny_acls.sort_custom(Callable(AclSorter,"sort"))
 			permit_acls.sort_custom(Callable(AclSorter,"sort"))
 			show_acls_lines(deny_acls + permit_acls, number, protocol, source_details, dest_details)
 		else:
