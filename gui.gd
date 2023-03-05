@@ -50,19 +50,33 @@ func update_dst_hosts_number(_a : String=""):
 		var last_dst_ip_value = get_value(last_dst_ip)
 		dst_hosts_widget.text = "%d" % (last_dst_ip_value - first_dst_ip_value + 1)
 
+func get_lowest_value_for_deny(last : int, first : int):
+	var hosts = last - first + 1
+	var exponent = int(log(hosts) / log(2))
+	var biggest_block
+	var mask
+	var lower_value 
+	var loop = true
+	while loop:
+		biggest_block = int(pow(2, exponent)) - 1
+		mask = ~biggest_block
+		lower_value = first & mask if first != 0 else 0
+		var host_overflow = first - lower_value + 1
+		if host_overflow >= (biggest_block + 1) / 2 and lower_value != 0:
+			exponent -= 1
+		else:
+			loop = false
+	return lower_value
 
 func compute_acls_with_deny(first_src : int, last_src : int, first_dst : int, last_dst : int):
-	var src_hosts = last_src - first_src + 1
-	var src_exponent = int(log(src_hosts) / log(2))
-	var src_biggest_block = int(pow(2, src_exponent)) - 1
-	var src_mask = ~src_biggest_block
-	var src_lower_value = first_src & src_mask if first_src != 0 else 0
+	var src_lower_value = get_lowest_value_for_deny(first_src, last_src)
 	
 	var dst_hosts = last_dst - first_dst + 1
 	var dst_exponent = int(log(dst_hosts) / log(2))
-	var dst_biggest_block = int(pow(2, dst_exponent)) - 1
-	var dst_mask = ~dst_biggest_block
-	var dst_lower_value = first_dst & dst_mask if first_dst != 0 else 0
+	var dst_biggest_block 
+	var dst_mask
+	var dst_lower_value = get_lowest_value_for_deny(first_dst, last_dst)
+	
 	# compute permit acls
 	var permit_ranges = compute_acls(src_lower_value, last_src, dst_lower_value, last_dst, "permit")
 	if src_lower_value == first_src:
