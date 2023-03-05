@@ -25,6 +25,22 @@ func _ready():
 	update_src_hosts_number()
 	update_dst_hosts_number()
 
+@onready var first_src_ip_bin := %FirstSrcIpBin
+@onready var last_src_ip_bin := %LastSrcIpBin
+@onready var first_dst_ip_bin := %FirstDstIpBin
+@onready var last_dst_ip_bin := %LastDstIpBin
+
+func value_ip_to_bin(ip : int):
+	var binary = ""
+	for i in range(4):
+		var byte := (ip >> i * 8) & 0xff
+		for j in range(8):
+			var value = (byte >> j) & 0x01
+			binary = String.num_int64(value) + binary
+		if i != 3:
+			binary = " . " + binary
+	return binary
+
 func get_value(ip : String) -> int:
 	var value := 0
 	var i = 0
@@ -34,6 +50,18 @@ func get_value(ip : String) -> int:
 		i += 1
 	return value
 
+func update_first_src_ip_bin(ip : String):
+	first_src_ip_bin.text = value_ip_to_bin(get_value(ip))
+
+func update_last_src_ip_bin(ip : String):
+	last_src_ip_bin.text = value_ip_to_bin(get_value(ip))
+
+func update_first_dst_ip_bin(ip : String):
+	first_dst_ip_bin.text = value_ip_to_bin(get_value(ip))
+
+func update_last_dst_ip_bin(ip : String):
+	last_dst_ip_bin.text = value_ip_to_bin(get_value(ip))
+
 func update_src_hosts_number(_a : String=""):
 	var first_src_ip = first_src_ip_widget.text
 	var last_src_ip = last_src_ip_widget.text
@@ -41,6 +69,9 @@ func update_src_hosts_number(_a : String=""):
 		var first_src_ip_value = get_value(first_src_ip)
 		var last_src_ip_value = get_value(last_src_ip)
 		src_hosts_widget.text = "%d" % (last_src_ip_value - first_src_ip_value + 1)
+		print(value_ip_to_bin(first_src_ip_value))
+	else:
+		src_hosts_widget.text = "0"
 
 func update_dst_hosts_number(_a : String=""):
 	var first_dst_ip = first_dest_ip_widget.text
@@ -49,8 +80,10 @@ func update_dst_hosts_number(_a : String=""):
 		var first_dst_ip_value = get_value(first_dst_ip)
 		var last_dst_ip_value = get_value(last_dst_ip)
 		dst_hosts_widget.text = "%d" % (last_dst_ip_value - first_dst_ip_value + 1)
+	else:
+		dst_hosts_widget.text = "0"
 
-func get_lowest_value_for_deny(last : int, first : int):
+func get_lowest_value_for_deny(first : int, last : int):
 	var hosts = last - first + 1
 	var exponent = int(log(hosts) / log(2))
 	var biggest_block
@@ -62,7 +95,7 @@ func get_lowest_value_for_deny(last : int, first : int):
 		mask = ~biggest_block
 		lower_value = first & mask if first != 0 else 0
 		var host_overflow = first - lower_value + 1
-		if host_overflow >= (biggest_block + 1) / 2 and lower_value != 0:
+		if host_overflow > (biggest_block + 1) / 2 and lower_value != 0:
 			exponent -= 1
 		else:
 			loop = false
@@ -287,6 +320,16 @@ func _on_GenModeOptionButton_item_selected(index):
 @onready var destination_hosts := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer2/DstHostCovered
 @onready var acl_selected := $PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/SelectedAcl
 
+@onready var first_src_details_bin := %FirstSrcDetailsBin
+@onready var last_src_details_bin := %LastSrcDetailsBin
+@onready var first_dst_details_bin := %FirstDstDetailsBin
+@onready var last_dst_details_bin := %LastDstDetailsBin
+
+@onready var src_details_mask := %SrcDetailsMask
+@onready var src_details_mask_bin := %SrcDetailsMaskBin
+@onready var dst_details_mask := %DstDetailsMask
+@onready var dst_details_mask_bin := %DstDetailsMaskBin
+
 func _on_TextEdit_cursor_changed():
 	var ln = output_acls.get_caret_line()
 	if sorted_acls and sorted_acls.size() > ln:
@@ -295,12 +338,18 @@ func _on_TextEdit_cursor_changed():
 		var dst = sorted_acls[ln]['dst']
 		first_src_details.text = src['ip-str']
 		last_src_details.text = to_str_ip(src['ip-value'] + src['mask-value'])
+		src_details_mask.text = src['mask-str']
 		source_hosts.text = String.num_int64(src['mask-value'] + 1) if src['ip-value'] != 0 else "all"
 		first_dst_details.text = dst['ip-str']
 		last_dst_details.text = to_str_ip(dst['ip-value'] + dst['mask-value'])
+		dst_details_mask.text = dst['mask-str']
 		destination_hosts.text = String.num_int64(dst['mask-value'] + 1) if dst['ip-value'] != 0 else "all"
-
-
+		first_src_details_bin.text = value_ip_to_bin(src['ip-value'])
+		last_src_details_bin.text = value_ip_to_bin(src['ip-value'] + src['mask-value'])
+		first_dst_details_bin.text = value_ip_to_bin(dst['ip-value'])
+		last_dst_details_bin.text = value_ip_to_bin(dst['ip-value'] + dst['mask-value'])
+		src_details_mask_bin.text = value_ip_to_bin(src['mask-value'])
+		dst_details_mask_bin.text = value_ip_to_bin(dst['mask-value'])
 
 func test_current_acls(src_ip : String, dst_ip : String):
 	var src_value := get_value(src_ip)
@@ -345,9 +394,14 @@ func _on_TestAclButton_pressed():
 	acl_calculated.text = String.num_int64(result['acl_calculated'])
 
 
+@onready var test_src_ip_bin := %TestSrcIpBin
+@onready var test_dst_ip_bin := %TestDstIpBin
 
+func update_test_src_ip_bin(ip : String):
+	test_src_ip_bin.text = value_ip_to_bin(get_value(ip))
 
-
+func update_test_dst_ip_bin(ip : String):
+	test_dst_ip_bin.text = value_ip_to_bin(get_value(ip))
 
 func _on_fullscreen_button_pressed():
 	if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
