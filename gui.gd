@@ -46,7 +46,8 @@ func get_value(ip : String) -> int:
 	var i = 0
 	var split = ip.rsplit(".", false, 4)
 	for s in split:
-		value += s.to_int() << (32 - 8 * ( i + 1 ))
+		var s_i = abs(s.to_int())
+		value += s_i << (32 - 8 * ( i + 1 ))
 		i += 1
 	return value
 

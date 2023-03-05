@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ce6ltrfdeq6yu"]
+[gd_scene load_steps=18 format=3 uid="uid://ce6ltrfdeq6yu"]
 
 [ext_resource type="Script" path="res://gui.gd" id="2"]
 
@@ -8,6 +8,9 @@ font_color = Color(0.592157, 0.54902, 1, 1)
 shadow_size = 5
 shadow_color = Color(0, 0, 0, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_2m8sr"]
+font_color = Color(0.294118, 0.615686, 1, 1)
+
 [sub_resource type="InputEventKey" id="InputEventKey_o8h7q"]
 ctrl_pressed = true
 pressed = true
@@ -16,6 +19,12 @@ keycode = 71
 [sub_resource type="Shortcut" id="Shortcut_icnmy"]
 events = [SubResource("InputEventKey_o8h7q"), null]
 
+[sub_resource type="LabelSettings" id="LabelSettings_3k5b0"]
+font_size = 20
+font_color = Color(0.478431, 1, 0.72549, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 1)
+
 [sub_resource type="InputEventKey" id="InputEventKey_bd6fe"]
 ctrl_pressed = true
 pressed = true
@@ -23,6 +32,16 @@ keycode = 84
 
 [sub_resource type="Shortcut" id="Shortcut_gwber"]
 events = [SubResource("InputEventKey_bd6fe"), null]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ou1vu"]
+font_size = 20
+shadow_size = 3
+shadow_color = Color(0.827451, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_7qs66"]
+font_size = 20
+shadow_size = 3
+shadow_color = Color(0.686275, 0.0156863, 0.282353, 1)
 
 [sub_resource type="CodeHighlighter" id="CodeHighlighter_kjxff"]
 number_color = Color(0.662745, 0.788235, 1, 1)
@@ -149,6 +168,7 @@ text = "bin: "
 unique_name_in_owner = true
 layout_mode = 2
 text = "enter an ip"
+label_settings = SubResource("LabelSettings_2m8sr")
 
 [node name="Label2" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -172,6 +192,7 @@ text = "bin: "
 unique_name_in_owner = true
 layout_mode = 2
 text = "enter an ip"
+label_settings = SubResource("LabelSettings_2m8sr")
 
 [node name="SrcHostsLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -213,6 +234,7 @@ text = "bin: "
 unique_name_in_owner = true
 layout_mode = 2
 text = "enter an ip"
+label_settings = SubResource("LabelSettings_2m8sr")
 
 [node name="Label4" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -236,6 +258,7 @@ text = "bin: "
 unique_name_in_owner = true
 layout_mode = 2
 text = "enter an ip"
+label_settings = SubResource("LabelSettings_2m8sr")
 
 [node name="Label12" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -370,6 +393,7 @@ layout_mode = 2
 [node name="SelectedAcl" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "select acl"
+label_settings = SubResource("LabelSettings_3k5b0")
 
 [node name="GridContainer2" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
 clip_contents = true
@@ -404,6 +428,7 @@ text = "bin:"
 unique_name_in_owner = true
 layout_mode = 2
 text = "select acl"
+label_settings = SubResource("LabelSettings_2m8sr")
 
 [node name="Label3" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer2"]
 layout_mode = 2
@@ -425,6 +450,7 @@ text = "bin:"
 unique_name_in_owner = true
 layout_mode = 2
 text = "select acl"
+label_settings = SubResource("LabelSettings_2m8sr")
 
 [node name="Label11" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer2"]
 layout_mode = 2
@@ -447,6 +473,7 @@ text = "bin:"
 unique_name_in_owner = true
 layout_mode = 2
 text = "select acl"
+label_settings = SubResource("LabelSettings_2m8sr")
 
 [node name="Label4" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer2"]
 layout_mode = 2
@@ -484,6 +511,7 @@ text = "bin:"
 unique_name_in_owner = true
 layout_mode = 2
 text = "select acl"
+label_settings = SubResource("LabelSettings_2m8sr")
 
 [node name="Label7" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer2"]
 layout_mode = 2
@@ -505,6 +533,7 @@ text = "bin:"
 unique_name_in_owner = true
 layout_mode = 2
 text = "select acl"
+label_settings = SubResource("LabelSettings_2m8sr")
 
 [node name="Label13" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer2"]
 layout_mode = 2
@@ -527,6 +556,7 @@ text = "bin:"
 unique_name_in_owner = true
 layout_mode = 2
 text = "select acl"
+label_settings = SubResource("LabelSettings_2m8sr")
 
 [node name="Label6" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/GridContainer2"]
 layout_mode = 2
@@ -568,6 +598,7 @@ text = "bin: "
 unique_name_in_owner = true
 layout_mode = 2
 text = "enter an ip"
+label_settings = SubResource("LabelSettings_2m8sr")
 
 [node name="Label2" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer/TestAclContainer1"]
 layout_mode = 2
@@ -591,6 +622,7 @@ text = "bin: "
 unique_name_in_owner = true
 layout_mode = 2
 text = "enter an ip"
+label_settings = SubResource("LabelSettings_2m8sr")
 
 [node name="TestAclButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/ScrollContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -655,9 +687,11 @@ layout_mode = 2
 [node name="TitleLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer2"]
 layout_mode = 2
 text = "Generated ACLs"
+label_settings = SubResource("LabelSettings_ou1vu")
 
 [node name="AclsSize" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer2"]
 layout_mode = 2
+label_settings = SubResource("LabelSettings_7qs66")
 
 [node name="TextEdit" type="CodeEdit" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
